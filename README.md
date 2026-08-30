@@ -86,9 +86,7 @@ client = OnePay()
 ### Verify Transaction Status
 
 ```python
-status = client.transactions.get_status(
-    onepay_transaction_id="WQBV118E584C83CBA50C6"
-)
+status = client.transactions.get_status(onepay_transaction_id="WQBV118E584C83CBA50C6")
 if status.data and status.data.status:
     print(f"Payment confirmed: {status.data.amount} {status.data.currency}")
 ```
@@ -172,9 +170,7 @@ refund = client.refunds.create(
 
 ```python
 # Single transaction lookup
-payout = client.payouts.get_transaction(
-    onepay_transaction_id="WQBV118E584C83CBA50C6"
-)
+payout = client.payouts.get_transaction(onepay_transaction_id="WQBV118E584C83CBA50C6")
 print(f"Settled: LKR {payout.data.settlement_amount}")
 
 # Iterate all transactions in a date range (auto-paginated)
@@ -200,6 +196,7 @@ if event.is_success:
 
 ```python
 from onepay import AsyncOnePay
+
 
 async def process_payment():
     async with AsyncOnePay(
