@@ -32,10 +32,9 @@ For async usage::
 
 from __future__ import annotations
 
+from onepay._auth import generate_hash
 from onepay._version import __version__
 from onepay.client import AsyncOnePay, OnePay
-from onepay._auth import generate_hash
-from onepay.webhook import Webhook, WebhookEvent
 
 # Exceptions
 from onepay.exceptions import (
@@ -58,6 +57,7 @@ from onepay.models.enums import (
     RefundReason,
     SubscriptionInterval,
 )
+from onepay.webhook import Webhook, WebhookEvent
 
 __all__ = [
     # Version

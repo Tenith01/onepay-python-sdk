@@ -7,7 +7,7 @@ webhook payloads received from OnePay.
 from __future__ import annotations
 
 import json
-from typing import Any, Dict, Optional, Union
+from typing import Any, Dict, Union
 
 from pydantic import BaseModel, Field
 

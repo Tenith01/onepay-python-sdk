@@ -6,14 +6,12 @@ import httpx
 import pytest
 import respx
 
-from onepay import OnePay
 from onepay.models.customer import (
     CreateCustomerResponse,
     CustomerData,
+    CustomerTransactionData,
     GetCustomerResponse,
-    RequestTokenResponse,
 )
-from onepay.models.transaction import CustomerTransactionData
 
 
 @pytest.fixture
@@ -33,6 +31,7 @@ def mock_customer_request_token_response():
         "status": 200,
         "message": "Token requested successfully",
         "data": {
+            "customer_id": "cus_907fa39a",
             "redirect_url": "https://gateway.onepay.lk/add-card/456"
         },
     }
@@ -74,10 +73,10 @@ def mock_customer_list_transactions_response():
         "message": "Transactions fetched successfully",
         "data": [
             {
-                "onepay_transaction_id": "TXN_123",
+                "transaction_id": "TXN_123",
                 "amount": "1500.00",
                 "currency": "LKR",
-                "status": "SUCCESS",
+                "status": True,
                 "paid_on": "2026-08-30 14:00:00"
             }
         ],
@@ -104,7 +103,7 @@ class TestCustomerResource:
 
     @respx.mock
     def test_request_token(self, client, mock_customer_request_token_response):
-        respx.post("https://api.onepay.lk/v3/customers/cus_907fa39a/cards/").mock(
+        respx.post("https://api.onepay.lk/v3/customers/").mock(
             return_value=httpx.Response(200, json=mock_customer_request_token_response)
         )
 
@@ -112,7 +111,7 @@ class TestCustomerResource:
             customer_id="cus_907fa39a",
             redirect_url="https://store.lk/card-saved"
         )
-        assert isinstance(result, RequestTokenResponse)
+        assert isinstance(result, CreateCustomerResponse)
         assert result.data.redirect_url == "https://gateway.onepay.lk/add-card/456"
 
     @respx.mock
@@ -145,4 +144,4 @@ class TestCustomerResource:
         result = client.customers.list_transactions(customer_id="cus_907fa39a")
         assert len(result) == 1
         assert isinstance(result[0], CustomerTransactionData)
-        assert result[0].onepay_transaction_id == "TXN_123"
+        assert result[0].transaction_id == "TXN_123"

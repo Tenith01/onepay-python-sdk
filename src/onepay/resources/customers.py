@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 from onepay._auth import build_auth_header
 from onepay._config import OnePayConfig
@@ -12,8 +12,8 @@ from onepay.models.customer import (
     CustomerData,
     CustomerTransactionData,
     GetCustomerResponse,
-    ListCustomerTransactionsResponse,
     ListCustomersResponse,
+    ListCustomerTransactionsResponse,
 )
 
 

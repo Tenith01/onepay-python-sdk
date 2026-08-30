@@ -7,7 +7,6 @@ from __future__ import annotations
 
 import os
 from dataclasses import dataclass, field
-from typing import Optional
 
 _DEFAULT_BASE_URL = "https://api.onepay.lk"
 _DEFAULT_TIMEOUT = 30.0

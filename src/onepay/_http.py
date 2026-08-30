@@ -7,9 +7,9 @@ retry logic, error parsing, and structured logging.
 from __future__ import annotations
 
 import logging
-import time
 import random
-from typing import Any, Dict, Optional, Type, TypeVar
+import time
+from typing import Any, Dict, Optional, TypeVar
 
 import httpx
 
@@ -80,7 +80,7 @@ def _backoff_delay(attempt: int, base: float = 0.5, max_delay: float = 30.0) -> 
     """Calculate exponential backoff delay with jitter."""
     delay = min(base * (2 ** attempt), max_delay)
     jitter = random.uniform(0, delay * 0.5)  # noqa: S311
-    return delay + jitter
+    return float(delay + jitter)
 
 
 class SyncHttpClient:
@@ -155,7 +155,7 @@ class SyncHttpClient:
 
                 # Success
                 if response.is_success:
-                    return response_data
+                    return response_data  # type: ignore[no-any-return]
 
                 # Check if we should retry
                 if _should_retry(response.status_code) and attempt < self._config.max_retries:
@@ -278,7 +278,7 @@ class AsyncHttpClient:
                     response_data = {"message": response.text}
 
                 if response.is_success:
-                    return response_data
+                    return response_data  # type: ignore[no-any-return]
 
                 if _should_retry(response.status_code) and attempt < self._config.max_retries:
                     delay = _backoff_delay(attempt)

@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import math
-from typing import Any, Dict, Iterator, List, Optional
+from collections.abc import Iterator
 
 from onepay._auth import build_auth_header
 from onepay._config import OnePayConfig

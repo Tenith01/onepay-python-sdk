@@ -6,10 +6,9 @@ import httpx
 import pytest
 import respx
 
-from onepay import OnePay
 from onepay.models.card import (
     CardData,
-    ChargeTokenResponse,
+    ChargeCardResponse,
     DeleteCardResponse,
     GetCardResponse,
 )
@@ -47,10 +46,7 @@ def mock_card_get_response():
 def mock_card_delete_response():
     return {
         "status": 200,
-        "message": "Card deleted successfully",
-        "data": {
-            "token_id": "tok_12345678"
-        },
+        "message": "Card deleted successfully"
     }
 
 @pytest.fixture
@@ -59,8 +55,8 @@ def mock_card_charge_response():
         "status": 200,
         "message": "Charge successful",
         "data": {
-            "ipg_transaction_id": "TXN_999",
-            "status": "SUCCESS"
+            "transaction_id": "TXN_999",
+            "status": True
         },
     }
 
@@ -95,7 +91,7 @@ class TestCardResource:
 
         result = client.cards.delete(customer_id="cus_123", token_id="tok_12345678")
         assert isinstance(result, DeleteCardResponse)
-        assert result.data.token_id == "tok_12345678"
+        assert result.message == "Card deleted successfully"
 
     @respx.mock
     def test_charge_card(self, client, mock_card_charge_response):
@@ -106,9 +102,8 @@ class TestCardResource:
         result = client.cards.charge(
             customer_id="cus_123",
             token_id="tok_12345678",
-            amount=1000.00,
-            currency="LKR",
-            reference="REF-001"
+            amount="1000.00",
+            currency="LKR"
         )
-        assert isinstance(result, ChargeTokenResponse)
-        assert result.data.ipg_transaction_id == "TXN_999"
+        assert isinstance(result, ChargeCardResponse)
+        assert result.data.transaction_id == "TXN_999"

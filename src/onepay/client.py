@@ -6,8 +6,6 @@ that expose all API resources as namespaced attributes.
 
 from __future__ import annotations
 
-from typing import Optional
-
 from onepay._config import OnePayConfig
 from onepay._http import AsyncHttpClient, SyncHttpClient
 from onepay.resources.cards import AsyncCardResource, CardResource
@@ -98,7 +96,7 @@ class OnePay:
         """Close the underlying HTTP client and release connections."""
         self._http.close()
 
-    def __enter__(self) -> "OnePay":
+    def __enter__(self) -> OnePay:
         return self
 
     def __exit__(self, *args: object) -> None:
@@ -174,7 +172,7 @@ class AsyncOnePay:
         """Close the underlying async HTTP client."""
         await self._http.close()
 
-    async def __aenter__(self) -> "AsyncOnePay":
+    async def __aenter__(self) -> AsyncOnePay:
         return self
 
     async def __aexit__(self, *args: object) -> None:

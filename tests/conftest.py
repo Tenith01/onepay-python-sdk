@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from onepay import OnePay, AsyncOnePay
+from onepay import AsyncOnePay, OnePay
 
 
 @pytest.fixture

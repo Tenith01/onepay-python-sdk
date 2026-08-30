@@ -46,7 +46,7 @@ class TestGenerateHash:
     def test_no_separators(self):
         """Values are concatenated with no separators."""
         # "APP" + "LKR" + "100.00" + "SALT" = "APPLKR100.00SALT"
-        expected = hashlib.sha256("APPLKR100.00SALT".encode("utf-8")).hexdigest()
+        expected = hashlib.sha256(b"APPLKR100.00SALT").hexdigest()
         assert generate_hash("APP", "LKR", "100.00", "SALT") == expected
 
 

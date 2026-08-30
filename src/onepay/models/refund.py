@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from typing import Optional
 
 from pydantic import BaseModel, Field, model_validator
 
@@ -33,7 +33,7 @@ class RefundRequest(BaseModel):
     )
 
     @model_validator(mode="after")
-    def _validate_partial_amount(self) -> "RefundRequest":
+    def _validate_partial_amount(self) -> RefundRequest:
         if self.is_partially and self.amount is None:
             raise ValueError("amount is required when is_partially is True")
         return self

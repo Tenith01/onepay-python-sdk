@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
-import respx
 import httpx
 import pytest
+import respx
 
 from onepay import OnePay
 from onepay.models.checkout import CheckoutResponse

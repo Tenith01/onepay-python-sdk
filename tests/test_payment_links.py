@@ -6,7 +6,6 @@ import httpx
 import pytest
 import respx
 
-from onepay import OnePay
 from onepay.models.payment_link import (
     CreatePaymentLinkResponse,
     DeletePaymentLinkResponse,
@@ -22,7 +21,7 @@ def mock_payment_link_create_response():
         "message": "Payment link created successfully",
         "data": {
             "link_id": "8IT20WK7",
-            "url": "https://gateway.onepay.lk/payment-link/8IT20WK7"
+            "link_url": "https://gateway.onepay.lk/payment-link/8IT20WK7"
         },
     }
 
@@ -56,10 +55,7 @@ def mock_payment_link_update_response():
 def mock_payment_link_delete_response():
     return {
         "status": 200,
-        "message": "Payment link deleted successfully",
-        "data": {
-            "link_id": "8IT20WK7"
-        },
+        "message": "Payment link deleted successfully"
     }
 
 
@@ -84,7 +80,7 @@ class TestPaymentLinkResource:
 
         assert isinstance(result, CreatePaymentLinkResponse)
         assert result.data.link_id == "8IT20WK7"
-        assert result.data.url == "https://gateway.onepay.lk/payment-link/8IT20WK7"
+        assert result.data.link_url == "https://gateway.onepay.lk/payment-link/8IT20WK7"
 
     @respx.mock
     def test_get_payment_link(self, client, mock_payment_link_get_response):
@@ -114,4 +110,4 @@ class TestPaymentLinkResource:
 
         result = client.payment_links.delete(link_id="8IT20WK7")
         assert isinstance(result, DeletePaymentLinkResponse)
-        assert result.data.link_id == "8IT20WK7"
+        assert result.message == "Payment link deleted successfully"

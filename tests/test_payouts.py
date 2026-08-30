@@ -6,11 +6,10 @@ import httpx
 import pytest
 import respx
 
-from onepay import OnePay
 from onepay.models.payout import (
-    GetPayoutTransactionResponse,
-    ListPayoutTransactionsResponse,
     PayoutTransactionData,
+    PayoutTransactionListResponse,
+    PayoutTransactionResponse,
 )
 
 
@@ -20,10 +19,10 @@ def mock_payout_list_response():
         "status": 200,
         "message": "Transactions fetched successfully",
         "data": {
-            "total_records": 1,
-            "total_pages": 1,
-            "current_page": 1,
-            "records": [
+            "count": 1,
+            "page": 1,
+            "page_size": 20,
+            "results": [
                 {
                     "onepay_transaction_id": "TXN_777",
                     "order_id": "ORD-777",
@@ -46,7 +45,7 @@ class TestPayoutResource:
         )
 
         result = client.payouts.get_transaction(onepay_transaction_id="WQBV118E584C83CBA50C6")
-        assert isinstance(result, GetPayoutTransactionResponse)
+        assert isinstance(result, PayoutTransactionResponse)
         assert result.data.onepay_transaction_id == "WQBV118E584C83CBA50C6"
 
     @respx.mock
@@ -61,10 +60,10 @@ class TestPayoutResource:
             page=1,
             page_size=20
         )
-        assert isinstance(result, ListPayoutTransactionsResponse)
-        assert result.data.total_records == 1
-        assert len(result.data.records) == 1
-        assert result.data.records[0].onepay_transaction_id == "TXN_777"
+        assert isinstance(result, PayoutTransactionListResponse)
+        assert result.data.count == 1
+        assert len(result.data.results) == 1
+        assert result.data.results[0].onepay_transaction_id == "TXN_777"
 
     @respx.mock
     def test_list_transactions_iterator(self, client, mock_payout_list_response):

@@ -11,7 +11,6 @@ from onepay.models.payment_link import (
     CreatePaymentLinkResponse,
     DeletePaymentLinkResponse,
     GetPaymentLinkResponse,
-    PaymentLinkData,
     UpdatePaymentLinkResponse,
 )
 

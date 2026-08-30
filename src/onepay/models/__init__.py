@@ -23,8 +23,8 @@ from onepay.models.customer import (
     CustomerData,
     CustomerTransactionData,
     GetCustomerResponse,
-    ListCustomerTransactionsResponse,
     ListCustomersResponse,
+    ListCustomerTransactionsResponse,
     RequestTokenRequest,
 )
 from onepay.models.enums import (
