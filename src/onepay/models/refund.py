@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from typing import Optional
-
 from pydantic import BaseModel, Field, model_validator
 
 
@@ -14,23 +12,16 @@ class RefundRequest(BaseModel):
     For partial refunds, set ``is_partially=True`` and provide ``amount``.
     """
 
-    onepay_transaction_id: str = Field(
-        ..., description="The OnePay transaction ID to refund"
-    )
+    onepay_transaction_id: str = Field(..., description="The OnePay transaction ID to refund")
     refund_reason: str = Field(
         ...,
-        description=(
-            "One of: DUPLICATED, FRAUDULENT, OUT_OF_ORDER, "
-            "REQUESTED_BY_CUSTOMER, OTHER"
-        ),
+        description=("One of: DUPLICATED, FRAUDULENT, OUT_OF_ORDER, REQUESTED_BY_CUSTOMER, OTHER"),
     )
     is_partially: bool = Field(False, description="True for partial refund")
-    amount: Optional[float] = Field(
+    amount: float | None = Field(
         None, description="Partial refund amount (required if is_partially=True)"
     )
-    refund_note: Optional[str] = Field(
-        None, description="Free-text note for this refund"
-    )
+    refund_note: str | None = Field(None, description="Free-text note for this refund")
 
     @model_validator(mode="after")
     def _validate_partial_amount(self) -> RefundRequest:
@@ -42,12 +33,12 @@ class RefundRequest(BaseModel):
 class RefundResponseData(BaseModel):
     """Data from a successful refund response."""
 
-    ipg_transaction_id: Optional[str] = None
-    refund_id: Optional[int] = None
-    status: Optional[str] = None
-    is_partially: Optional[bool] = None
-    requested_amount: Optional[str] = None
-    refund_reason: Optional[str] = None
+    ipg_transaction_id: str | None = None
+    refund_id: int | None = None
+    status: str | None = None
+    is_partially: bool | None = None
+    requested_amount: str | None = None
+    refund_reason: str | None = None
 
 
 class RefundResponse(BaseModel):
@@ -55,4 +46,4 @@ class RefundResponse(BaseModel):
 
     status: int = 200
     message: str = ""
-    data: Optional[RefundResponseData] = None
+    data: RefundResponseData | None = None

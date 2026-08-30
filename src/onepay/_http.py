@@ -9,11 +9,10 @@ from __future__ import annotations
 import logging
 import random
 import time
-from typing import Any, Dict, Optional, TypeVar
+from typing import TYPE_CHECKING, Any, TypeVar
 
 import httpx
 
-from onepay._config import OnePayConfig
 from onepay._version import __version__
 from onepay.exceptions import (
     APIError,
@@ -24,6 +23,9 @@ from onepay.exceptions import (
     RateLimitError,
 )
 
+if TYPE_CHECKING:
+    from onepay._config import OnePayConfig
+
 logger = logging.getLogger("onepay")
 
 T = TypeVar("T")
@@ -33,7 +35,7 @@ _USER_AGENT = f"onepay-python/{__version__}"
 
 def _parse_error_response(
     status_code: int,
-    response_data: Dict[str, Any],
+    response_data: dict[str, Any],
 ) -> APIError:
     """Parse an HTTP error response into the appropriate exception type."""
     message = response_data.get("message", "") or response_data.get("error", "")
@@ -78,7 +80,7 @@ def _should_retry(status_code: int) -> bool:
 
 def _backoff_delay(attempt: int, base: float = 0.5, max_delay: float = 30.0) -> float:
     """Calculate exponential backoff delay with jitter."""
-    delay = min(base * (2 ** attempt), max_delay)
+    delay = min(base * (2**attempt), max_delay)
     jitter = random.uniform(0, delay * 0.5)  # noqa: S311
     return float(delay + jitter)
 
@@ -99,10 +101,10 @@ class SyncHttpClient:
         method: str,
         path: str,
         *,
-        json: Optional[Dict[str, Any]] = None,
-        params: Optional[Dict[str, Any]] = None,
-        headers: Optional[Dict[str, str]] = None,
-    ) -> Dict[str, Any]:
+        json: dict[str, Any] | None = None,
+        params: dict[str, Any] | None = None,
+        headers: dict[str, str] | None = None,
+    ) -> dict[str, Any]:
         """Execute an HTTP request with retry logic.
 
         Args:
@@ -119,7 +121,7 @@ class SyncHttpClient:
             APIError: On API error responses.
             NetworkError: On connection or timeout failures.
         """
-        last_error: Optional[Exception] = None
+        last_error: Exception | None = None
 
         for attempt in range(self._config.max_retries + 1):
             try:
@@ -222,10 +224,10 @@ class AsyncHttpClient:
         method: str,
         path: str,
         *,
-        json: Optional[Dict[str, Any]] = None,
-        params: Optional[Dict[str, Any]] = None,
-        headers: Optional[Dict[str, str]] = None,
-    ) -> Dict[str, Any]:
+        json: dict[str, Any] | None = None,
+        params: dict[str, Any] | None = None,
+        headers: dict[str, str] | None = None,
+    ) -> dict[str, Any]:
         """Execute an async HTTP request with retry logic.
 
         Args:
@@ -244,7 +246,7 @@ class AsyncHttpClient:
         """
         import asyncio
 
-        last_error: Optional[Exception] = None
+        last_error: Exception | None = None
 
         for attempt in range(self._config.max_retries + 1):
             try:

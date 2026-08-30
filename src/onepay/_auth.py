@@ -7,7 +7,6 @@ construction for different API endpoint groups.
 from __future__ import annotations
 
 import hashlib
-from typing import Dict
 
 
 def generate_hash(app_id: str, currency: str, amount: str, hash_salt: str) -> str:
@@ -33,7 +32,7 @@ def generate_hash(app_id: str, currency: str, amount: str, hash_salt: str) -> st
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
 
-def build_auth_header(token: str) -> Dict[str, str]:
+def build_auth_header(token: str) -> dict[str, str]:
     """Build the Authorization header dictionary.
 
     Args:
@@ -48,7 +47,7 @@ def build_auth_header(token: str) -> Dict[str, str]:
     }
 
 
-def build_json_header() -> Dict[str, str]:
+def build_json_header() -> dict[str, str]:
     """Build a basic JSON Content-Type header (no auth).
 
     Returns:

@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from typing import Optional
-
 from pydantic import BaseModel, Field
 
 
@@ -20,12 +18,10 @@ class TransactionStatusData(BaseModel):
     """Transaction status data from the API response."""
 
     status: bool = Field(..., description="True if the payment was successful")
-    ipg_transaction_id: str = Field(
-        ..., description="OnePay's internal transaction identifier"
-    )
-    amount: Optional[str] = Field(None, description="The amount charged")
-    currency: Optional[str] = Field(None, description="Currency of the transaction")
-    paid_on: Optional[str] = Field(
+    ipg_transaction_id: str = Field(..., description="OnePay's internal transaction identifier")
+    amount: str | None = Field(None, description="The amount charged")
+    currency: str | None = Field(None, description="Currency of the transaction")
+    paid_on: str | None = Field(
         None, description="Timestamp of payment in YYYY-MM-DD HH:mm:ss format"
     )
 
@@ -34,4 +30,4 @@ class TransactionStatusResponse(BaseModel):
     """Parsed response from the transaction status API."""
 
     status: bool = Field(..., description="True if the payment was successful")
-    data: Optional[TransactionStatusData] = None
+    data: TransactionStatusData | None = None

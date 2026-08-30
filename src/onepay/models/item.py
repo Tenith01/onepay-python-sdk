@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from pydantic import BaseModel, Field
 
@@ -22,8 +22,8 @@ class CreateItemRequest(BaseModel):
     description: str = Field(..., description="Short description of the item")
     price: float = Field(..., description="Unit price, e.g. 1400.99")
     currency: str = Field(..., description="Currency code: LKR or USD")
-    image_url: Optional[str] = Field(None, description="Public URL of a product image")
-    metadata: Optional[Dict[str, Any]] = Field(
+    image_url: str | None = Field(None, description="Public URL of a product image")
+    metadata: dict[str, Any] | None = Field(
         None, description="Arbitrary key-value pairs for internal cataloguing"
     )
 
@@ -32,11 +32,11 @@ class UpdateItemRequest(BaseModel):
     """Parameters for updating an existing item. Only provided fields are updated."""
 
     app_id: str = Field(..., description="Your application identifier")
-    name: Optional[str] = Field(None, description="Updated item name")
-    price: Optional[float] = Field(None, description="Updated unit price")
-    description: Optional[str] = Field(None, description="Updated description")
-    image_url: Optional[str] = Field(None, description="Updated product image URL")
-    metadata: Optional[List[Dict[str, Any]]] = Field(
+    name: str | None = Field(None, description="Updated item name")
+    price: float | None = Field(None, description="Updated unit price")
+    description: str | None = Field(None, description="Updated description")
+    image_url: str | None = Field(None, description="Updated product image URL")
+    metadata: list[dict[str, Any]] | None = Field(
         None, description="Updated metadata array (replaces existing)"
     )
 
@@ -45,13 +45,13 @@ class ItemData(BaseModel):
     """Representation of a single item from the API."""
 
     item_id: str = Field(..., description="Unique identifier for the item")
-    name: Optional[str] = None
-    description: Optional[str] = None
-    price: Optional[str] = None
-    currency: Optional[str] = None
-    image_url: Optional[str] = None
+    name: str | None = None
+    description: str | None = None
+    price: str | None = None
+    currency: str | None = None
+    image_url: str | None = None
     is_deleted: bool = False
-    metadata: Optional[List[ItemMetadata]] = None
+    metadata: list[ItemMetadata] | None = None
 
 
 class CreateItemResponse(BaseModel):
@@ -59,7 +59,7 @@ class CreateItemResponse(BaseModel):
 
     status: int = 200
     message: str = ""
-    data: Optional[Dict[str, str]] = None
+    data: dict[str, str] | None = None
 
     @property
     def item_id(self) -> str:
@@ -74,7 +74,7 @@ class ListItemsResponse(BaseModel):
 
     status: int = 200
     message: str = ""
-    data: Optional[List[ItemData]] = None
+    data: list[ItemData] | None = None
 
 
 class UpdateItemResponse(BaseModel):
@@ -82,7 +82,7 @@ class UpdateItemResponse(BaseModel):
 
     status: int = 200
     message: str = ""
-    data: Optional[Dict[str, str]] = None
+    data: dict[str, str] | None = None
 
 
 class DeleteItemResponse(BaseModel):

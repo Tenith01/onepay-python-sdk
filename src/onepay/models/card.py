@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from typing import List, Optional
-
 from pydantic import BaseModel, Field
 
 
@@ -11,11 +9,11 @@ class CardData(BaseModel):
     """Representation of a saved card token."""
 
     token_id: str = Field(..., description="Secure card token identifier")
-    card_type: Optional[str] = Field(None, description="Card network, e.g. Visa, Mastercard")
-    masked_number: Optional[str] = Field(
+    card_type: str | None = Field(None, description="Card network, e.g. Visa, Mastercard")
+    masked_number: str | None = Field(
         None, description="Masked card number, e.g. **** **** **** 4242"
     )
-    expiry: Optional[str] = Field(None, description="Card expiry in MM/YY format")
+    expiry: str | None = Field(None, description="Card expiry in MM/YY format")
     is_deleted: bool = False
 
 
@@ -23,14 +21,14 @@ class ListCardsResponse(BaseModel):
     """Response from listing a customer's cards."""
 
     status: int = 200
-    data: Optional[List[CardData]] = None
+    data: list[CardData] | None = None
 
 
 class GetCardResponse(BaseModel):
     """Response from retrieving a single card."""
 
     status: int = 200
-    data: Optional[CardData] = None
+    data: CardData | None = None
 
 
 class DeleteCardResponse(BaseModel):
@@ -52,11 +50,11 @@ class ChargeCardRequest(BaseModel):
 class ChargeCardResponseData(BaseModel):
     """Data from a successful card charge."""
 
-    transaction_id: Optional[str] = None
-    status: Optional[bool] = None
-    amount: Optional[str] = None
-    currency: Optional[str] = None
-    token_id: Optional[str] = None
+    transaction_id: str | None = None
+    status: bool | None = None
+    amount: str | None = None
+    currency: str | None = None
+    token_id: str | None = None
 
 
 class ChargeCardResponse(BaseModel):
@@ -64,4 +62,4 @@ class ChargeCardResponse(BaseModel):
 
     status: int = 200
     message: str = ""
-    data: Optional[ChargeCardResponseData] = None
+    data: ChargeCardResponseData | None = None

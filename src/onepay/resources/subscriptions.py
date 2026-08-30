@@ -7,11 +7,13 @@ it for completeness.
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from typing import TYPE_CHECKING, Any
 
 from onepay._auth import build_auth_header, generate_hash
-from onepay._config import OnePayConfig
-from onepay._http import AsyncHttpClient, SyncHttpClient
+
+if TYPE_CHECKING:
+    from onepay._config import OnePayConfig
+    from onepay._http import AsyncHttpClient, SyncHttpClient
 
 
 class SubscriptionResource:
@@ -33,9 +35,9 @@ class SubscriptionResource:
         customer_first_name: str,
         customer_last_name: str,
         customer_email: str,
-        customer_phone: Optional[str] = None,
-        trial_period_days: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        customer_phone: str | None = None,
+        trial_period_days: int | None = None,
+    ) -> dict[str, Any]:
         """Create a subscription (experimental).
 
         Args:
@@ -59,7 +61,7 @@ class SubscriptionResource:
 
         amount_str = f"{amount:.2f}"
 
-        payload: Dict[str, Any] = {
+        payload: dict[str, Any] = {
             "app_id": app_id,
             "name": name,
             "amount": float(amount_str),
@@ -112,16 +114,16 @@ class AsyncSubscriptionResource:
         customer_first_name: str,
         customer_last_name: str,
         customer_email: str,
-        customer_phone: Optional[str] = None,
-        trial_period_days: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        customer_phone: str | None = None,
+        trial_period_days: int | None = None,
+    ) -> dict[str, Any]:
         """Async version of :meth:`SubscriptionResource.create`."""
         app_id = self._config.get_app_id_or_raise()
         app_token = self._config.get_app_token_or_raise()
 
         amount_str = f"{amount:.2f}"
 
-        payload: Dict[str, Any] = {
+        payload: dict[str, Any] = {
             "app_id": app_id,
             "name": name,
             "amount": float(amount_str),

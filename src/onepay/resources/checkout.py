@@ -2,13 +2,16 @@
 
 from __future__ import annotations
 
-from decimal import Decimal
-from typing import Any, Dict, List, Optional, Union
+from typing import TYPE_CHECKING, Any
 
 from onepay._auth import build_auth_header, generate_hash
-from onepay._config import OnePayConfig
-from onepay._http import AsyncHttpClient, SyncHttpClient
 from onepay.models.checkout import CheckoutResponse
+
+if TYPE_CHECKING:
+    from decimal import Decimal
+
+    from onepay._config import OnePayConfig
+    from onepay._http import AsyncHttpClient, SyncHttpClient
 
 
 class CheckoutResource:
@@ -21,7 +24,7 @@ class CheckoutResource:
     def create(
         self,
         *,
-        amount: Union[float, Decimal, str],
+        amount: float | Decimal | str,
         currency: str,
         reference: str,
         customer_first_name: str,
@@ -29,8 +32,8 @@ class CheckoutResource:
         customer_phone_number: str,
         customer_email: str,
         transaction_redirect_url: str,
-        additional_data: Optional[str] = None,
-        items: Optional[List[str]] = None,
+        additional_data: str | None = None,
+        items: list[str] | None = None,
     ) -> CheckoutResponse:
         """Create a checkout transaction and get a redirect URL.
 
@@ -58,7 +61,7 @@ class CheckoutResource:
         # Generate SHA-256 hash
         hash_value = generate_hash(app_id, currency, amount_str, hash_salt)
 
-        payload: Dict[str, Any] = {
+        payload: dict[str, Any] = {
             "app_id": app_id,
             "amount": float(amount_str),
             "currency": currency,
@@ -98,7 +101,7 @@ class AsyncCheckoutResource:
     async def create(
         self,
         *,
-        amount: Union[float, Decimal, str],
+        amount: float | Decimal | str,
         currency: str,
         reference: str,
         customer_first_name: str,
@@ -106,8 +109,8 @@ class AsyncCheckoutResource:
         customer_phone_number: str,
         customer_email: str,
         transaction_redirect_url: str,
-        additional_data: Optional[str] = None,
-        items: Optional[List[str]] = None,
+        additional_data: str | None = None,
+        items: list[str] | None = None,
     ) -> CheckoutResponse:
         """Async version of :meth:`CheckoutResource.create`."""
         app_id = self._config.get_app_id_or_raise()
@@ -116,7 +119,7 @@ class AsyncCheckoutResource:
         amount_str = f"{float(amount):.2f}"
         hash_value = generate_hash(app_id, currency, amount_str, hash_salt)
 
-        payload: Dict[str, Any] = {
+        payload: dict[str, Any] = {
             "app_id": app_id,
             "amount": float(amount_str),
             "currency": currency,

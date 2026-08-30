@@ -2,12 +2,14 @@
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from typing import TYPE_CHECKING, Any
 
 from onepay._auth import build_auth_header
-from onepay._config import OnePayConfig
-from onepay._http import AsyncHttpClient, SyncHttpClient
 from onepay.models.refund import RefundResponse
+
+if TYPE_CHECKING:
+    from onepay._config import OnePayConfig
+    from onepay._http import AsyncHttpClient, SyncHttpClient
 
 
 class RefundResource:
@@ -23,8 +25,8 @@ class RefundResource:
         onepay_transaction_id: str,
         refund_reason: str,
         is_partially: bool = False,
-        amount: Optional[float] = None,
-        refund_note: Optional[str] = None,
+        amount: float | None = None,
+        refund_note: str | None = None,
     ) -> RefundResponse:
         """Initiate a refund for a successfully paid transaction.
 
@@ -45,7 +47,7 @@ class RefundResource:
         if is_partially and amount is None:
             raise ValueError("amount is required for partial refunds (is_partially=True)")
 
-        payload: Dict[str, Any] = {
+        payload: dict[str, Any] = {
             "app_id": self._config.get_app_id_or_raise(),
             "onepay_transaction_id": onepay_transaction_id,
             "refund_reason": refund_reason,
@@ -80,14 +82,14 @@ class AsyncRefundResource:
         onepay_transaction_id: str,
         refund_reason: str,
         is_partially: bool = False,
-        amount: Optional[float] = None,
-        refund_note: Optional[str] = None,
+        amount: float | None = None,
+        refund_note: str | None = None,
     ) -> RefundResponse:
         """Async version of :meth:`RefundResource.create`."""
         if is_partially and amount is None:
             raise ValueError("amount is required for partial refunds (is_partially=True)")
 
-        payload: Dict[str, Any] = {
+        payload: dict[str, Any] = {
             "app_id": self._config.get_app_id_or_raise(),
             "onepay_transaction_id": onepay_transaction_id,
             "refund_reason": refund_reason,

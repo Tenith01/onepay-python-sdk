@@ -2,11 +2,10 @@
 
 from __future__ import annotations
 
-from typing import Any, Dict, List
+import builtins  # noqa: TCH003
+from typing import TYPE_CHECKING, Any
 
 from onepay._auth import build_auth_header
-from onepay._config import OnePayConfig
-from onepay._http import AsyncHttpClient, SyncHttpClient
 from onepay.models.customer import (
     CreateCustomerResponse,
     CustomerData,
@@ -15,6 +14,10 @@ from onepay.models.customer import (
     ListCustomersResponse,
     ListCustomerTransactionsResponse,
 )
+
+if TYPE_CHECKING:
+    from onepay._config import OnePayConfig
+    from onepay._http import AsyncHttpClient, SyncHttpClient
 
 
 class CustomerResource:
@@ -47,7 +50,7 @@ class CustomerResource:
         Returns:
             :class:`CreateCustomerResponse` with ``customer_id`` and ``redirect_url``.
         """
-        payload: Dict[str, Any] = {
+        payload: dict[str, Any] = {
             "app_id": self._config.get_app_id_or_raise(),
             "first_name": first_name,
             "last_name": last_name,
@@ -58,14 +61,10 @@ class CustomerResource:
         }
 
         headers = build_auth_header(self._config.get_access_token_or_raise())
-        response = self._http.request(
-            "POST", "/v3/customers/", json=payload, headers=headers
-        )
+        response = self._http.request("POST", "/v3/customers/", json=payload, headers=headers)
         return CreateCustomerResponse.model_validate(response)
 
-    def request_token(
-        self, *, customer_id: str, redirect_url: str
-    ) -> CreateCustomerResponse:
+    def request_token(self, *, customer_id: str, redirect_url: str) -> CreateCustomerResponse:
         """Request a new card token for an existing customer.
 
         Args:
@@ -75,19 +74,17 @@ class CustomerResource:
         Returns:
             :class:`CreateCustomerResponse` with a new card-entry ``redirect_url``.
         """
-        payload: Dict[str, Any] = {
+        payload: dict[str, Any] = {
             "app_id": self._config.get_app_id_or_raise(),
             "customer_id": customer_id,
             "redirect_url": redirect_url,
         }
 
         headers = build_auth_header(self._config.get_access_token_or_raise())
-        response = self._http.request(
-            "POST", "/v3/customers/", json=payload, headers=headers
-        )
+        response = self._http.request("POST", "/v3/customers/", json=payload, headers=headers)
         return CreateCustomerResponse.model_validate(response)
 
-    def list(self) -> List[CustomerData]:
+    def list(self) -> list[CustomerData]:
         """List all customers.
 
         Returns:
@@ -118,9 +115,7 @@ class CustomerResource:
         )
         return GetCustomerResponse.model_validate(response)
 
-    def list_transactions(
-        self, *, customer_id: str
-    ) -> List[CustomerTransactionData]:
+    def list_transactions(self, *, customer_id: str) -> builtins.list[CustomerTransactionData]:
         """Get a customer's full billing history.
 
         Args:
@@ -160,7 +155,7 @@ class AsyncCustomerResource:
         redirect_url: str,
     ) -> CreateCustomerResponse:
         """Async version of :meth:`CustomerResource.create`."""
-        payload: Dict[str, Any] = {
+        payload: dict[str, Any] = {
             "app_id": self._config.get_app_id_or_raise(),
             "first_name": first_name,
             "last_name": last_name,
@@ -171,28 +166,22 @@ class AsyncCustomerResource:
         }
 
         headers = build_auth_header(self._config.get_access_token_or_raise())
-        response = await self._http.request(
-            "POST", "/v3/customers/", json=payload, headers=headers
-        )
+        response = await self._http.request("POST", "/v3/customers/", json=payload, headers=headers)
         return CreateCustomerResponse.model_validate(response)
 
-    async def request_token(
-        self, *, customer_id: str, redirect_url: str
-    ) -> CreateCustomerResponse:
+    async def request_token(self, *, customer_id: str, redirect_url: str) -> CreateCustomerResponse:
         """Async version of :meth:`CustomerResource.request_token`."""
-        payload: Dict[str, Any] = {
+        payload: dict[str, Any] = {
             "app_id": self._config.get_app_id_or_raise(),
             "customer_id": customer_id,
             "redirect_url": redirect_url,
         }
 
         headers = build_auth_header(self._config.get_access_token_or_raise())
-        response = await self._http.request(
-            "POST", "/v3/customers/", json=payload, headers=headers
-        )
+        response = await self._http.request("POST", "/v3/customers/", json=payload, headers=headers)
         return CreateCustomerResponse.model_validate(response)
 
-    async def list(self) -> List[CustomerData]:
+    async def list(self) -> builtins.list[CustomerData]:
         """Async version of :meth:`CustomerResource.list`."""
         headers = build_auth_header(self._config.get_access_token_or_raise())
         response = await self._http.request("GET", "/v3/customers/", headers=headers)
@@ -214,7 +203,7 @@ class AsyncCustomerResource:
 
     async def list_transactions(
         self, *, customer_id: str
-    ) -> List[CustomerTransactionData]:
+    ) -> builtins.list[CustomerTransactionData]:
         """Async version of :meth:`CustomerResource.list_transactions`."""
         app_id = self._config.get_app_id_or_raise()
         headers = build_auth_header(self._config.get_access_token_or_raise())

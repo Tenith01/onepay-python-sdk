@@ -7,7 +7,7 @@ webhook payloads received from OnePay.
 from __future__ import annotations
 
 import json
-from typing import Any, Dict, Union
+from typing import Any
 
 from pydantic import BaseModel, Field
 
@@ -19,18 +19,10 @@ class WebhookEvent(BaseModel):
     when a transaction completes.
     """
 
-    transaction_id: str = Field(
-        ..., description="The OnePay transaction ID"
-    )
-    status: int = Field(
-        ..., description="Numeric status (1 = SUCCESS)"
-    )
-    status_message: str = Field(
-        ..., description="Status description (e.g. SUCCESS)"
-    )
-    additional_data: str = Field(
-        "", description="Any additional data from transaction creation"
-    )
+    transaction_id: str = Field(..., description="The OnePay transaction ID")
+    status: int = Field(..., description="Numeric status (1 = SUCCESS)")
+    status_message: str = Field(..., description="Status description (e.g. SUCCESS)")
+    additional_data: str = Field("", description="Any additional data from transaction creation")
 
     @property
     def is_success(self) -> bool:
@@ -52,7 +44,7 @@ class Webhook:
     """
 
     @staticmethod
-    def parse(payload: Union[str, bytes, Dict[str, Any]]) -> WebhookEvent:
+    def parse(payload: str | bytes | dict[str, Any]) -> WebhookEvent:
         """Parse a webhook payload into a :class:`WebhookEvent`.
 
         Args:
@@ -73,8 +65,6 @@ class Webhook:
         elif isinstance(payload, dict):
             data = payload
         else:
-            raise ValueError(
-                f"Expected str, bytes, or dict, got {type(payload).__name__}"
-            )
+            raise ValueError(f"Expected str, bytes, or dict, got {type(payload).__name__}")
 
         return WebhookEvent.model_validate(data)

@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import pytest
-
 from onepay import AsyncOnePay, OnePay
 
 
@@ -43,9 +42,7 @@ def mock_checkout_response():
     return {
         "status": 200,
         "data": {
-            "gateway": {
-                "redirect_url": "https://gateway.onepay.lk/pay/abc123"
-            },
+            "gateway": {"redirect_url": "https://gateway.onepay.lk/pay/abc123"},
             "ipg_transaction_id": "WQBV118E584C83CBA50C6",
         },
     }

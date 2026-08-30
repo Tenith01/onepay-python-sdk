@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from typing import Optional
-
 from pydantic import BaseModel, Field
 
 
@@ -17,36 +15,30 @@ class CreatePaymentLinkRequest(BaseModel):
     customer_last_name: str = Field(..., description="Customer's last name")
     customer_email: str = Field(..., description="Customer's email address")
     customer_phone_number: str = Field(..., description="Customer's phone number")
-    description: Optional[str] = Field(None, description="Description of the payment")
-    expiration_date: Optional[str] = Field(
-        None, description="Expiry date in YYYY-MM-DD format"
-    )
-    allow_partial_payment: bool = Field(
-        False, description="Allow partial payments"
-    )
-    minimum_partial_amount: Optional[str] = Field(
-        None, description="Minimum partial payment amount"
-    )
+    description: str | None = Field(None, description="Description of the payment")
+    expiration_date: str | None = Field(None, description="Expiry date in YYYY-MM-DD format")
+    allow_partial_payment: bool = Field(False, description="Allow partial payments")
+    minimum_partial_amount: str | None = Field(None, description="Minimum partial payment amount")
 
 
 class PaymentLinkData(BaseModel):
     """Representation of a payment link from the API."""
 
-    link_id: Optional[str] = None
-    link_url: Optional[str] = None
-    amount: Optional[str] = None
-    currency: Optional[str] = None
-    reference_number: Optional[str] = None
-    description: Optional[str] = None
-    customer_first_name: Optional[str] = None
-    customer_last_name: Optional[str] = None
-    customer_email: Optional[str] = None
-    customer_phone_number: Optional[str] = None
-    expiration_date: Optional[str] = None
+    link_id: str | None = None
+    link_url: str | None = None
+    amount: str | None = None
+    currency: str | None = None
+    reference_number: str | None = None
+    description: str | None = None
+    customer_first_name: str | None = None
+    customer_last_name: str | None = None
+    customer_email: str | None = None
+    customer_phone_number: str | None = None
+    expiration_date: str | None = None
     is_complete: bool = False
     is_delete: bool = False
-    created_at: Optional[str] = None
-    updated_at: Optional[str] = None
+    created_at: str | None = None
+    updated_at: str | None = None
 
 
 class CreatePaymentLinkResponse(BaseModel):
@@ -54,7 +46,7 @@ class CreatePaymentLinkResponse(BaseModel):
 
     status: int = 200
     message: str = ""
-    data: Optional[PaymentLinkData] = None
+    data: PaymentLinkData | None = None
 
 
 class GetPaymentLinkResponse(BaseModel):
@@ -62,7 +54,7 @@ class GetPaymentLinkResponse(BaseModel):
 
     status: int = 200
     message: str = ""
-    data: Optional[PaymentLinkData] = None
+    data: PaymentLinkData | None = None
 
 
 class UpdatePaymentLinkResponse(BaseModel):
@@ -70,7 +62,7 @@ class UpdatePaymentLinkResponse(BaseModel):
 
     status: int = 200
     message: str = ""
-    data: Optional[PaymentLinkData] = None
+    data: PaymentLinkData | None = None
 
 
 class DeletePaymentLinkResponse(BaseModel):

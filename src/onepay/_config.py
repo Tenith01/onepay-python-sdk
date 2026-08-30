@@ -47,9 +47,7 @@ class OnePayConfig:
             self.app_token = self.app_token or os.environ.get("ONEPAY_APP_TOKEN", "")
             self.api_key = self.api_key or os.environ.get("ONEPAY_API_KEY", "")
             self.access_token = self.access_token or os.environ.get("ONEPAY_ACCESS_TOKEN", "")
-            self.base_url = self.base_url or os.environ.get(
-                "ONEPAY_BASE_URL", _DEFAULT_BASE_URL
-            )
+            self.base_url = self.base_url or os.environ.get("ONEPAY_BASE_URL", _DEFAULT_BASE_URL)
             # Strip trailing slashes from base URL
             self.base_url = self.base_url.rstrip("/")
             self._resolved = True
@@ -59,7 +57,7 @@ class OnePayConfig:
         if not self.app_token:
             raise ValueError(
                 "app_token is required for this operation. "
-                "Pass it to the OnePay constructor or set the ONEPAY_APP_TOKEN environment variable."
+                "Pass it to the OnePay constructor or set the ONEPAY_APP_TOKEN environment variable."  # noqa: E501
             )
         return self.app_token
 
@@ -77,7 +75,7 @@ class OnePayConfig:
         if not self.access_token:
             raise ValueError(
                 "access_token is required for this operation. "
-                "Pass it to the OnePay constructor or set the ONEPAY_ACCESS_TOKEN environment variable."
+                "Pass it to the OnePay constructor or set the ONEPAY_ACCESS_TOKEN environment variable."  # noqa: E501
             )
         return self.access_token
 
@@ -86,7 +84,7 @@ class OnePayConfig:
         if not self.hash_salt:
             raise ValueError(
                 "hash_salt is required for this operation. "
-                "Pass it to the OnePay constructor or set the ONEPAY_HASH_SALT environment variable."
+                "Pass it to the OnePay constructor or set the ONEPAY_HASH_SALT environment variable."  # noqa: E501
             )
         return self.hash_salt
 
@@ -101,6 +99,7 @@ class OnePayConfig:
 
     def redacted_repr(self) -> str:
         """Return a string representation with secrets redacted."""
+
         def _redact(val: str) -> str:
             if not val:
                 return "(not set)"

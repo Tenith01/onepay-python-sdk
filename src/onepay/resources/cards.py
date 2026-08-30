@@ -2,11 +2,9 @@
 
 from __future__ import annotations
 
-from typing import Any, Dict, List
+from typing import TYPE_CHECKING, Any
 
 from onepay._auth import build_auth_header
-from onepay._config import OnePayConfig
-from onepay._http import AsyncHttpClient, SyncHttpClient
 from onepay.models.card import (
     CardData,
     ChargeCardResponse,
@@ -14,6 +12,10 @@ from onepay.models.card import (
     GetCardResponse,
     ListCardsResponse,
 )
+
+if TYPE_CHECKING:
+    from onepay._config import OnePayConfig
+    from onepay._http import AsyncHttpClient, SyncHttpClient
 
 
 class CardResource:
@@ -23,7 +25,7 @@ class CardResource:
         self._http = http
         self._config = config
 
-    def list(self, *, customer_id: str) -> List[CardData]:
+    def list(self, *, customer_id: str) -> list[CardData]:
         """List all saved cards for a customer.
 
         Args:
@@ -107,7 +109,7 @@ class CardResource:
         Returns:
             :class:`ChargeCardResponse` with transaction details.
         """
-        payload: Dict[str, Any] = {
+        payload: dict[str, Any] = {
             "app_id": self._config.get_app_id_or_raise(),
             "token_id": token_id,
             "amount": amount,
@@ -132,7 +134,7 @@ class AsyncCardResource:
         self._http = http
         self._config = config
 
-    async def list(self, *, customer_id: str) -> List[CardData]:
+    async def list(self, *, customer_id: str) -> list[CardData]:
         """Async version of :meth:`CardResource.list`."""
         app_id = self._config.get_app_id_or_raise()
         headers = build_auth_header(self._config.get_access_token_or_raise())
@@ -159,9 +161,7 @@ class AsyncCardResource:
         )
         return GetCardResponse.model_validate(response)
 
-    async def delete(
-        self, *, customer_id: str, token_id: str
-    ) -> DeleteCardResponse:
+    async def delete(self, *, customer_id: str, token_id: str) -> DeleteCardResponse:
         """Async version of :meth:`CardResource.delete`."""
         app_id = self._config.get_app_id_or_raise()
         headers = build_auth_header(self._config.get_access_token_or_raise())
@@ -183,7 +183,7 @@ class AsyncCardResource:
         currency: str,
     ) -> ChargeCardResponse:
         """Async version of :meth:`CardResource.charge`."""
-        payload: Dict[str, Any] = {
+        payload: dict[str, Any] = {
             "app_id": self._config.get_app_id_or_raise(),
             "token_id": token_id,
             "amount": amount,

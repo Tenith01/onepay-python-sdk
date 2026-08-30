@@ -2,10 +2,12 @@
 
 from __future__ import annotations
 
-from decimal import Decimal
-from typing import List, Optional
+from typing import TYPE_CHECKING
 
 from pydantic import BaseModel, Field
+
+if TYPE_CHECKING:
+    from decimal import Decimal
 
 
 class CheckoutRequest(BaseModel):
@@ -19,19 +21,11 @@ class CheckoutRequest(BaseModel):
     reference: str = Field(..., description="Your internal order or reference ID")
     customer_first_name: str = Field(..., description="Customer's first name")
     customer_last_name: str = Field(..., description="Customer's last name")
-    customer_phone_number: str = Field(
-        ..., description="Customer's phone number in E.164 format"
-    )
+    customer_phone_number: str = Field(..., description="Customer's phone number in E.164 format")
     customer_email: str = Field(..., description="Customer's email address")
-    transaction_redirect_url: str = Field(
-        ..., description="URL to redirect customer after payment"
-    )
-    additional_data: Optional[str] = Field(
-        None, description="Additional metadata for the transaction"
-    )
-    items: Optional[List[str]] = Field(
-        None, description="Array of item IDs from the Items API"
-    )
+    transaction_redirect_url: str = Field(..., description="URL to redirect customer after payment")
+    additional_data: str | None = Field(None, description="Additional metadata for the transaction")
+    items: list[str] | None = Field(None, description="Array of item IDs from the Items API")
 
 
 class GatewayData(BaseModel):
@@ -44,9 +38,7 @@ class CheckoutResponseData(BaseModel):
     """Data payload of a successful checkout response."""
 
     gateway: GatewayData
-    ipg_transaction_id: str = Field(
-        ..., description="OnePay's internal transaction identifier"
-    )
+    ipg_transaction_id: str = Field(..., description="OnePay's internal transaction identifier")
 
 
 class CheckoutResponse(BaseModel):

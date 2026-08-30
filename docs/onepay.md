@@ -44,7 +44,7 @@
 
 ## OnePay REST API Docs
 
-**Category**: API Documentation  
+**Category**: API Documentation
 **Source URL**: https://docs.onepay.lk/api-documentation
 
 # OnePay API Introduction
@@ -102,7 +102,7 @@ API requests are rate limited per App ID. If you exceed the limit, you will rece
 
 ## API Authentication
 
-**Category**: API Documentation  
+**Category**: API Documentation
 **Source URL**: https://docs.onepay.lk/api-documentation/authentication
 
 # Authentication
@@ -134,7 +134,7 @@ Concatenate values as plain strings with no separators. The `amount` must match 
 
 ## API Error Handling & HTTP Codes
 
-**Category**: API Documentation  
+**Category**: API Documentation
 **Source URL**: https://docs.onepay.lk/api-documentation/error-handling
 
 # Errors
@@ -152,7 +152,7 @@ OnePay uses conventional HTTP response codes. Codes in the 2xx range indicate su
 
 ## Payment Methods & Currencies
 
-**Category**: API Documentation  
+**Category**: API Documentation
 **Source URL**: https://docs.onepay.lk/api-documentation/currencies
 
 # Payment Options & Supported Currencies
@@ -202,7 +202,7 @@ For more information, please refer to the official CBSL notice:<https://www.cbsl
 
 ## Payment API Reference
 
-**Category**: API Documentation  
+**Category**: API Documentation
 **Source URL**: https://docs.onepay.lk/api-documentation/payment-api#create-transaction
 
 # Payment API — Redirection
@@ -327,7 +327,7 @@ Use this callback data for logging, verification, and updating transaction statu
 
 ## Items Management API
 
-**Category**: API Documentation  
+**Category**: API Documentation
 **Source URL**: https://docs.onepay.lk/api-documentation/items-management
 
 # Items Management
@@ -456,7 +456,7 @@ RESPONSE PARAMETERS
 
 ## Payment Link API Reference
 
-**Category**: API Documentation  
+**Category**: API Documentation
 **Source URL**: https://docs.onepay.lk/api-documentation/payment-link
 
 # Payment Link API
@@ -599,7 +599,7 @@ ERROR RESPONSE — 400
 
 ## Card on File & Tokenizer API
 
-**Category**: API Documentation  
+**Category**: API Documentation
 **Source URL**: https://docs.onepay.lk/api-documentation/customer-tokenizer
 
 # Card on File ( Automated Charging )
@@ -993,7 +993,7 @@ RESPONSE PARAMETERS — 200 OK
 
 ## Refund API Reference
 
-**Category**: API Documentation  
+**Category**: API Documentation
 **Source URL**: https://docs.onepay.lk/api-documentation/refund
 
 # Refund
@@ -1128,7 +1128,7 @@ Only one active refund request is permitted per transaction. A subsequent refund
 
 ## Payouts & Settlement API
 
-**Category**: API Documentation  
+**Category**: API Documentation
 **Source URL**: https://docs.onepay.lk/api-documentation/payouts
 
 # How Payouts Work
@@ -1470,7 +1470,7 @@ A `null` settlement date is not an error, it simply means the transaction has be
 
 ## Test Card Details
 
-**Category**: Testing  
+**Category**: Testing
 **Source URL**: https://docs.onepay.lk/testing/test-cards
 
 # Test Card Details
@@ -1490,7 +1490,7 @@ Use the following test card details for integration testing:
 
 ## OnePay JS Checkout Overlay
 
-**Category**: SDKs and Plugins  
+**Category**: SDKs and Plugins
 **Source URL**: https://docs.onepay.lk/api-documentation/onepay-js
 
 # OnePay JS
@@ -1727,7 +1727,7 @@ Use this payload to log the transaction, verify it against your own records, and
 
 ## JavaScript SDK
 
-**Category**: SDKs and Plugins  
+**Category**: SDKs and Plugins
 **Source URL**: https://docs.onepay.lk/plugins/javascript-sdk
 
 # JavaScript SDK
@@ -2088,7 +2088,7 @@ The SDK uses Firebase internally to listen for transaction status updates. If pa
 
 ## WooCommerce / WordPress Plugin
 
-**Category**: SDKs and Plugins  
+**Category**: SDKs and Plugins
 **Source URL**: https://docs.onepay.lk/plugins/wordpress
 
 # WordPress Plugin Integration
@@ -2122,7 +2122,7 @@ You need to have the WooCommerce plugin installed to use the Onepay plugin.
 
 ## Shopify Payment Plugin
 
-**Category**: SDKs and Plugins  
+**Category**: SDKs and Plugins
 **Source URL**: https://docs.onepay.lk/plugins/shopify
 
 # Shopify Plugin Install
@@ -2210,7 +2210,7 @@ Checkout page looks broken.
 
 ## WHMCS Payment Gateway Setup
 
-**Category**: SDKs and Plugins  
+**Category**: SDKs and Plugins
 **Source URL**: https://docs.onepay.lk/plugins/whmcs
 
 # WHMCS Plugin Integration
@@ -2255,7 +2255,7 @@ Checkout page looks broken.
 
 ## Zoho Books & Inventory Extension
 
-**Category**: SDKs and Plugins  
+**Category**: SDKs and Plugins
 **Source URL**: https://docs.onepay.lk/plugins/zoho
 
 # Zoho OnePay Extension — Installation & Configuration Guide
@@ -2274,29 +2274,29 @@ Before you begin, make sure you have:
 
 1. ### Install the Extension from Zoho Marketplace
 
-   
+
 2. ### Access Payment Gateway Settings in Zoho
 
-   
+
 3. ### Retrieve Your API Keys from OnePay
 
-   
+
 4. ### Configure OnePay in Zoho
 
-   
+
 5. ### Enable OnePay on Your Invoices
 
-   
+
 6. ### Customer Checkout Experience
 
    Once the invoice is sent, your customer will see the following on their end:
 
-   
+
 7. ### Payment Confirmation in Zoho
 
    Once your customer successfully completes the payment through OnePay, Zoho automatically updates the following:
 
-   
+
 
 ### Video Tutorial
 
@@ -2308,7 +2308,7 @@ Before you begin, make sure you have:
 
 ## Getting Started & Onboarding
 
-**Category**: Guides  
+**Category**: Guides
 **Source URL**: https://docs.onepay.lk/guide/getting-started
 
 # OnePay Docs
@@ -2760,7 +2760,7 @@ If your future payout balance or recent transaction volume is insufficient to co
 * For **local (LKR) transactions**: you deposit the exact refund amount to the OnePay designated account.
 * For **foreign currency transactions**: you must deposit the equivalent amount in LKR, calculated at the applicable FX rate on the date the refund is being processed. OnePay will provide you with the account details and the applicable FX rate at that time.
 
-**FOR MERCHANTS**  
+**FOR MERCHANTS**
 Responding to refund requests within 24 hours significantly reduces the chance of a customer escalating to a chargeback, which is more costly and time-consuming for everyone.
 
 ### When Refunds Take Longer Than Expected
@@ -2791,7 +2791,7 @@ A chargeback is a process where your bank reverses a transaction and refunds the
 
 The bank will process your request, and in most cases, the amount will be credited back to your account within a few working days.
 
-**IMPORTANT**  
+**IMPORTANT**
 Keep checking your bank statements and follow up with your bank if needed.
 
 # Understanding Chargebacks
@@ -2831,14 +2831,14 @@ Evidence is everything. When OnePay notifies you of a chargeback, compile the fo
 * Terms & conditions shown at checkout (including your refund and return policy)
 * IP address and device fingerprint of the transaction (available from your dashboard)
 
-**WARNING**  
+**WARNING**
 The chargeback response window is typically 7-14 days from the date of notification. Missing this deadline means an automatic loss. Set up email alerts in your OnePay dashboard to ensure you never miss a notification.
 
 ### Chargeback Ratio - Keep It Low
 
 Card networks (VISA, Mastercard) set strict thresholds for acceptable chargeback ratios. If your monthly chargeback rate exceeds these thresholds, your account may be flagged, suspended, or your merchant agreement terminated. The standard industry threshold is below 1% of monthly transactions.
 
-**IMPORTANT**  
+**IMPORTANT**
 If your chargeback ratio starts climbing, contact OnePay immediately. We can work with you on fraud prevention settings, 3D Secure configuration, and customer communication strategies to bring the rate down.
 
 # Business Verification & Compliance
@@ -2855,7 +2855,7 @@ OnePay may request updated business documents from you periodically, typically a
 * Significant increase in transaction volume
 * Expansion into new product categories
 
-**IMPORTANT**  
+**IMPORTANT**
 Failing to respond to a verification request within the specified deadline may result in a temporary hold on your payout or account suspension. Always respond promptly to keep your account in good standing.
 
 ### Approval Scope - What OnePay Approves
@@ -2869,7 +2869,7 @@ OnePay continuously monitors transaction activity on the platform. If transactio
 * Suspension of your merchant account while the matter is investigated
 * In serious cases, termination of your merchant account
 
-**IMPORTANT**  
+**IMPORTANT**
 Your approval is tied to what you declared at onboarding. If your business evolves, new products, new services, **new** business models always inform your Relationship Officer before processing those transactions. Getting ahead of this is far simpler than resolving a **compliance** issue.
 
 ### Processing Time & Status
@@ -2911,10 +2911,10 @@ If a merchant account is terminated due to a compliance breach or policy violati
 | **Future Gateway Applications** | The flag significantly affects, and in most cases prevents the directors and owners from successfully applying for a payment gateway with any other payment processor or acquiring bank in Sri Lanka and internationally. |
 | **Bank Payment Gateway Access** | Bank-issued payment gateways are also subject to the same card network compliance databases. A flagged record will affect applications to bank payment gateway services **as well**. |
 
-**WARNING**  
+**WARNING**
 A termination flag is not a local issue — it travels with your business and your personal identity globally through the card network compliance systems. The best protection is simple: always operate within your approved business scope, maintain a low chargeback rate, and communicate proactively with your Relationship Officer when anything changes.
 
-**NOTE**  
+**NOTE**
 If you receive a termination notice and believe it is in error, contact our support team at **info@onepay.lk** within 5 business days. We will review the case and respond within 3 business days.
 
 # 3D Secure - How OnePay Protects Every Transaction
@@ -2939,7 +2939,7 @@ A 2D transaction also called a non-3DS or card-not-present transaction is a basi
 * The customer enters the OTP to authenticate the payment
 * Only after successful OTP verification does the transaction proceed
 
-**QUICK FACT**  
+**QUICK FACT**
 OnePay mandates 3DS for ALL transactions. There are no exceptions. This protects you as a merchant from fraudulent transactions and liability disputes.
 
 ### 3DS vs 2DS - Risk Comparison
@@ -2973,17 +2973,17 @@ When a card does not support 3DS and a transaction is completed without authenti
 * The merchant is protected from chargebacks arising from fraudulent use
 * This is a deliberate liability-shift policy enforced by Visa and Mastercard
 
-**✓ TIP**  
+**✓ TIP**
 As a merchant on OnePay, you are never required to take action based on whether a customer's card has 3DS enabled or disabled. OnePay's system automatically handles the authentication flow.
 
-**NOTE**  
+**NOTE**
 If a customer did not receive an OTP during checkout, this is most likely a 3DS configuration issue with their issuing bank **not** an OnePay issue. Ask the customer to contact their bank to enable 3DS, or to try a different card.
 
 ---
 
 ## Policy Sample Documents
 
-**Category**: Guides  
+**Category**: Guides
 **Source URL**: https://docs.onepay.lk/guide/policy-samples
 
 # Policy Samples
@@ -3135,7 +3135,7 @@ In no event shall **[Your eCommerce Website]**, its directors, or affiliates be 
 
 ## Board Resolution Templates
 
-**Category**: Guides  
+**Category**: Guides
 **Source URL**: https://docs.onepay.lk/guide/resolution-templates
 
 # Board Resolution Templates
@@ -3263,7 +3263,7 @@ Name: [Director 2 Name]
 
 ## Merchant System User Guide
 
-**Category**: Guides  
+**Category**: Guides
 **Source URL**: https://docs.onepay.lk/user-guide
 
 13 Steps to Go Live
@@ -3278,7 +3278,7 @@ Everything you need to create your OnePay account, configure your integration, a
 
    You will receive an email from **noreply@onepay.lk** to complete your merchant registration. Check your spam folder if you do not see it in your inbox. Click "Click Here" in the email to set your password.
 
-   
+
 
    Registration Email Screenshot (Replace with screenshot showing the 'Click Here' email)
 
@@ -3290,7 +3290,7 @@ Everything you need to create your OnePay account, configure your integration, a
    * One number (0–9)
    * One special character
 
-   
+
 
    Password Setup Screen (Replace with the Merchant Registration password form screenshot)
 
@@ -3299,7 +3299,7 @@ Everything you need to create your OnePay account, configure your integration, a
 
    Visit the OnePay website to access the merchant portal login page.
 
-   
+
 
    OnePay Homepage — 'Payments Made Simple for Growing Business'
 
@@ -3308,7 +3308,7 @@ Everything you need to create your OnePay account, configure your integration, a
 
    Enter your registered **User Email** and the **Password** you set in Step 2. Click the **Login** button to enter your dashboard.
 
-   
+
 
    Merchant Portal Login Screen (Replace with login page screenshot)
 
@@ -3330,14 +3330,14 @@ Everything you need to create your OnePay account, configure your integration, a
    * Last Payout
    * Pending Payout
 
-   
+
 
    Merchant Dashboard Overview Screenshot
 2. ### Navigate to Developer Configurations
 
    Scroll down in the left sidebar and click **Developer Configurations** to expand the section. Then click **IPG Apps** from the sub-menu.
 
-   
+
 
    Left Sidebar — Developer Configurations Expanded
 3. ### Update Developer Details
@@ -3348,7 +3348,7 @@ Everything you need to create your OnePay account, configure your integration, a
    * Developer Email
    * Developer Phone
 
-   
+
 
    IPG Apps — Developer Details Form
 
@@ -3358,7 +3358,7 @@ Everything you need to create your OnePay account, configure your integration, a
 
    Click the **Add New App** button in the top right of the IPG Apps section. A dialog will appear to configure your integration.
 
-   
+
 
    IPG Apps — Add New App Button
 2. ### Configure the New App
@@ -3372,7 +3372,7 @@ Everything you need to create your OnePay account, configure your integration, a
    * HelaPay
    * QPlus
 
-   
+
 
    App New App Dialog — Full Form
 3. ### Set Callback URL and Token
@@ -3383,7 +3383,7 @@ Everything you need to create your OnePay account, configure your integration, a
 
    **Callback Token** — a secret key to validate that incoming callbacks are genuinely from OnePay
 
-   
+
 
    Status Callback Configuration Section
 4. ### Submit the App
@@ -3395,7 +3395,7 @@ Everything you need to create your OnePay account, configure your integration, a
    * Deactivate — Disable the app
    * Request to go Live
 
-   
+
 
    App Card — 'On Development' Status with Three-Dot Menu
 
@@ -3409,7 +3409,7 @@ Everything you need to create your OnePay account, configure your integration, a
 
    In the dialog, enter a star (\*) in the CIDR permission field to allow all IP addresses, or enter specific IPs for tighter security control.
 
-   
+
 
    'Request to Go Live' Dialog
 
@@ -3420,7 +3420,7 @@ Everything you need to create your OnePay account, configure your integration, a
 
    Your app status will update. The OnePay team will review and approve your request.
 
-   
+
 
    Terms Checkbox and 'Request To Go Live' Button
 
@@ -3434,21 +3434,21 @@ Everything you need to create your OnePay account, configure your integration, a
 
    From the main dashboard, scroll down the left sidebar and click **Account Settings**.
 
-   
+
 
    Account Settings Sidebar
 2. ### Open Billing and Subscription
 
    Under Account Settings, click **Billing and Subscription**.
 
-   
+
 
    Billing and Subscription Menu
 3. ### Update Payment Card Details
 
    Provide your card details so they can be securely tokenised for automated subscription payments.
 
-   
+
 
    Update Payment Card Details Form
 
@@ -3501,7 +3501,7 @@ Everything you need to create your OnePay account, configure your integration, a
    * Daily Payouts T+2
    * Limit waived to 3M
 
-   
+
 
    Billing and Subscription — Package Selection Page
 
@@ -3511,7 +3511,7 @@ Everything you need to create your OnePay account, configure your integration, a
 
 ## What Is Card-on-File? Merchant Guide
 
-**Category**: Blog / Technical Articles  
+**Category**: Blog / Technical Articles
 **Source URL**: https://docs.onepay.lk/blogs/card-on-file
 
 # What Is Card-on-File? A Complete Guide for Sri Lankan Merchants
@@ -3727,7 +3727,7 @@ If the initial card-save was 3DS-authenticated, which OnePay mandates, the liabi
 
 ## OnePay Enables Google Pay in Sri Lanka
 
-**Category**: Blog / Technical Articles  
+**Category**: Blog / Technical Articles
 **Source URL**: https://docs.onepay.lk/blogs/onepay-google-pay-press-release
 
 @keyframes checkout-float {
@@ -3810,7 +3810,7 @@ Offer your customers the fast, familiar checkout experience they expect. Built d
 
 ## Sri Lanka Wellness Tourism Report 2026
 
-**Category**: Blog / Technical Articles  
+**Category**: Blog / Technical Articles
 **Source URL**: https://docs.onepay.lk/blogs/wellness-tourism-report
 
 #1
@@ -4051,7 +4051,7 @@ Set up your OnePay account and start accepting international card payments for y
 
 ## OnePay Unified Checkout Overview
 
-**Category**: Blog / Technical Articles  
+**Category**: Blog / Technical Articles
 **Source URL**: https://docs.onepay.lk/blogs/onepay-unified-checkout
 
 @keyframes checkout-float {
@@ -4268,7 +4268,7 @@ Set up OnePay Checkout in minutes. One branded page, every card and wallet your 
 
 ## OnePay Orchestration & Smart Routing
 
-**Category**: Blog / Technical Articles  
+**Category**: Blog / Technical Articles
 **Source URL**: https://docs.onepay.lk/blogs/onepay-orchestration
 
 One Connection. Endless Possibilities.
@@ -4442,7 +4442,7 @@ For Sri Lankan businesses competing for international guests, processing recurri
 
 ## Accept Payments in 10 Currencies
 
-**Category**: Blog / Technical Articles  
+**Category**: Blog / Technical Articles
 **Source URL**: https://docs.onepay.lk/blogs/multi-currency-payments
 
 Sri Lanka's Only 10-Currency Gateway
@@ -4477,8 +4477,8 @@ SGDSingapore Dollar
 
 LKRSri Lankan Rupee
 
-Payment  
-ReceivedMULTI-  
+Payment
+ReceivedMULTI-
 CURRENCY
 
 $1,250.00
@@ -4692,7 +4692,7 @@ OnePay is the only payment gateway in Sri Lanka that makes this available across
 
 ## Hotels: Get Paid When Guests Book
 
-**Category**: Blog / Technical Articles  
+**Category**: Blog / Technical Articles
 **Source URL**: https://docs.onepay.lk/blogs/hotels-deposits
 
 # Sri Lankan Hotels and Tour Operators: Get Paid Online *the Moment a Guest Agrees to Book*
@@ -4871,8 +4871,8 @@ Illustrative Scenario · Hikkaduwa
 
 ### From 40% No-Shows to Fully Confirmed Weekends
 
-A boutique dive resort in Hikkaduwa with 12 rooms was losing three to four bookings every weekend to no-shows. They had a call-to-confirm policy, but guests rarely followed through. After including a OnePay payment link in every WhatsApp availability reply, set at USD 100 per room and credited to the final bill, they stopped releasing rooms without payment first.  
-  
+A boutique dive resort in Hikkaduwa with 12 rooms was losing three to four bookings every weekend to no-shows. They had a call-to-confirm policy, but guests rarely followed through. After including a OnePay payment link in every WhatsApp availability reply, set at USD 100 per room and credited to the final bill, they stopped releasing rooms without payment first.
+
 The link went out in the same message as the availability confirmation. The conversation converted to payment immediately. Within one month, weekend no-shows dropped to zero. Occupancy increased by 22%. And the payment confirmation became their booking receipt, making check-in faster and dispute-free.
 
 22% occupancy increase · Zero no-shows · No website required
@@ -4897,7 +4897,7 @@ Payment is not a step that comes after the booking. It is the booking. The momen
 
 ## Do Not Honour (Code 05) Explained
 
-**Category**: Blog / Technical Articles  
+**Category**: Blog / Technical Articles
 **Source URL**: https://docs.onepay.lk/blogs/do-not-honour
 
 # "Do Not Honour" Explained: Response Code 05
@@ -5097,7 +5097,7 @@ Code 05 declines initiated by the issuing bank do not negatively affect your One
 
 ## OnePay Learning Center Basics
 
-**Category**: Blog / Technical Articles  
+**Category**: Blog / Technical Articles
 **Source URL**: https://docs.onepay.lk/blogs/learning-center
 
 # Welcome to the Onepay Learning Center | Blogs
@@ -5164,4 +5164,3 @@ Click the star (\*) symbol in the box below to verify the CAPTCHA, check the ter
 Contact us if you need additional support or have suggestions for improvement. Your valuable feedback helps us enhance our services.
 
 ---
-

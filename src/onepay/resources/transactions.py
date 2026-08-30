@@ -2,12 +2,14 @@
 
 from __future__ import annotations
 
-from typing import Any, Dict
+from typing import TYPE_CHECKING, Any
 
 from onepay._auth import build_json_header
-from onepay._config import OnePayConfig
-from onepay._http import AsyncHttpClient, SyncHttpClient
 from onepay.models.transaction import TransactionStatusResponse
+
+if TYPE_CHECKING:
+    from onepay._config import OnePayConfig
+    from onepay._http import AsyncHttpClient, SyncHttpClient
 
 
 class TransactionResource:
@@ -31,7 +33,7 @@ class TransactionResource:
         """
         app_id = self._config.get_app_id_or_raise()
 
-        payload: Dict[str, Any] = {
+        payload: dict[str, Any] = {
             "app_id": app_id,
             "onepay_transaction_id": onepay_transaction_id,
         }
@@ -53,13 +55,11 @@ class AsyncTransactionResource:
         self._http = http
         self._config = config
 
-    async def get_status(
-        self, *, onepay_transaction_id: str
-    ) -> TransactionStatusResponse:
+    async def get_status(self, *, onepay_transaction_id: str) -> TransactionStatusResponse:
         """Async version of :meth:`TransactionResource.get_status`."""
         app_id = self._config.get_app_id_or_raise()
 
-        payload: Dict[str, Any] = {
+        payload: dict[str, Any] = {
             "app_id": app_id,
             "onepay_transaction_id": onepay_transaction_id,
         }

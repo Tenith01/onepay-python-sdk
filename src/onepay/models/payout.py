@@ -2,22 +2,20 @@
 
 from __future__ import annotations
 
-from typing import List, Optional
-
 from pydantic import BaseModel, Field
 
 
 class PayoutTransactionData(BaseModel):
     """Settlement data for a single transaction."""
 
-    onepay_transaction_id: Optional[str] = None
-    order_id: Optional[str] = None
-    currency: Optional[str] = None
-    net_amount: Optional[str] = None
-    commission_rate: Optional[str] = None
-    commission_amount: Optional[str] = None
-    settlement_amount: Optional[float] = None
-    settlement_date: Optional[str] = None
+    onepay_transaction_id: str | None = None
+    order_id: str | None = None
+    currency: str | None = None
+    net_amount: str | None = None
+    commission_rate: str | None = None
+    commission_amount: str | None = None
+    settlement_amount: float | None = None
+    settlement_date: str | None = None
 
 
 class PayoutTransactionResponse(BaseModel):
@@ -25,7 +23,7 @@ class PayoutTransactionResponse(BaseModel):
 
     status: int = 200
     message: str = ""
-    data: Optional[PayoutTransactionData] = None
+    data: PayoutTransactionData | None = None
 
 
 class PayoutTransactionListData(BaseModel):
@@ -34,7 +32,7 @@ class PayoutTransactionListData(BaseModel):
     count: int = Field(0, description="Total number of matching transactions")
     page: int = Field(1, description="Current page number")
     page_size: int = Field(20, description="Number of results per page")
-    results: List[PayoutTransactionData] = Field(default_factory=list)
+    results: list[PayoutTransactionData] = Field(default_factory=list)
 
 
 class PayoutTransactionListResponse(BaseModel):
@@ -42,4 +40,4 @@ class PayoutTransactionListResponse(BaseModel):
 
     status: int = 200
     message: str = ""
-    data: Optional[PayoutTransactionListData] = None
+    data: PayoutTransactionListData | None = None

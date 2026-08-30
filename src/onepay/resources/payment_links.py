@@ -2,17 +2,19 @@
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from typing import TYPE_CHECKING, Any
 
 from onepay._auth import build_auth_header
-from onepay._config import OnePayConfig
-from onepay._http import AsyncHttpClient, SyncHttpClient
 from onepay.models.payment_link import (
     CreatePaymentLinkResponse,
     DeletePaymentLinkResponse,
     GetPaymentLinkResponse,
     UpdatePaymentLinkResponse,
 )
+
+if TYPE_CHECKING:
+    from onepay._config import OnePayConfig
+    from onepay._http import AsyncHttpClient, SyncHttpClient
 
 
 class PaymentLinkResource:
@@ -32,10 +34,10 @@ class PaymentLinkResource:
         customer_last_name: str,
         customer_email: str,
         customer_phone_number: str,
-        description: Optional[str] = None,
-        expiration_date: Optional[str] = None,
+        description: str | None = None,
+        expiration_date: str | None = None,
         allow_partial_payment: bool = False,
-        minimum_partial_amount: Optional[str] = None,
+        minimum_partial_amount: str | None = None,
     ) -> CreatePaymentLinkResponse:
         """Create a new payment link.
 
@@ -58,7 +60,7 @@ class PaymentLinkResource:
         app_id = self._config.get_app_id_or_raise()
         api_key = self._config.get_api_key_or_raise()
 
-        payload: Dict[str, Any] = {
+        payload: dict[str, Any] = {
             "amount": amount,
             "currency": currency,
             "reference_number": reference_number,
@@ -121,7 +123,7 @@ class PaymentLinkResource:
         app_id = self._config.get_app_id_or_raise()
         api_key = self._config.get_api_key_or_raise()
 
-        payload: Dict[str, Any] = {
+        payload: dict[str, Any] = {
             "app_id": app_id,
             "description": description,
         }
@@ -176,16 +178,16 @@ class AsyncPaymentLinkResource:
         customer_last_name: str,
         customer_email: str,
         customer_phone_number: str,
-        description: Optional[str] = None,
-        expiration_date: Optional[str] = None,
+        description: str | None = None,
+        expiration_date: str | None = None,
         allow_partial_payment: bool = False,
-        minimum_partial_amount: Optional[str] = None,
+        minimum_partial_amount: str | None = None,
     ) -> CreatePaymentLinkResponse:
         """Async version of :meth:`PaymentLinkResource.create`."""
         app_id = self._config.get_app_id_or_raise()
         api_key = self._config.get_api_key_or_raise()
 
-        payload: Dict[str, Any] = {
+        payload: dict[str, Any] = {
             "amount": amount,
             "currency": currency,
             "reference_number": reference_number,
@@ -226,14 +228,12 @@ class AsyncPaymentLinkResource:
         )
         return GetPaymentLinkResponse.model_validate(response)
 
-    async def update(
-        self, *, link_id: str, description: str
-    ) -> UpdatePaymentLinkResponse:
+    async def update(self, *, link_id: str, description: str) -> UpdatePaymentLinkResponse:
         """Async version of :meth:`PaymentLinkResource.update`."""
         app_id = self._config.get_app_id_or_raise()
         api_key = self._config.get_api_key_or_raise()
 
-        payload: Dict[str, Any] = {
+        payload: dict[str, Any] = {
             "app_id": app_id,
             "description": description,
         }

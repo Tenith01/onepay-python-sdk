@@ -3,16 +3,20 @@
 from __future__ import annotations
 
 import math
-from collections.abc import Iterator
+from typing import TYPE_CHECKING
 
 from onepay._auth import build_auth_header
-from onepay._config import OnePayConfig
-from onepay._http import AsyncHttpClient, SyncHttpClient
 from onepay.models.payout import (
     PayoutTransactionData,
     PayoutTransactionListResponse,
     PayoutTransactionResponse,
 )
+
+if TYPE_CHECKING:
+    from collections.abc import Iterator
+
+    from onepay._config import OnePayConfig
+    from onepay._http import AsyncHttpClient, SyncHttpClient
 
 
 class PayoutResource:
@@ -22,9 +26,7 @@ class PayoutResource:
         self._http = http
         self._config = config
 
-    def get_transaction(
-        self, *, onepay_transaction_id: str
-    ) -> PayoutTransactionResponse:
+    def get_transaction(self, *, onepay_transaction_id: str) -> PayoutTransactionResponse:
         """Look up settlement details for a single transaction.
 
         Args:
@@ -84,8 +86,7 @@ class PayoutResource:
             if parsed.data is None or not parsed.data.results:
                 return
 
-            for txn in parsed.data.results:
-                yield txn
+            yield from parsed.data.results
 
             total_pages = math.ceil(parsed.data.count / page_size) if parsed.data.count else 1
             if page >= total_pages:
@@ -135,9 +136,7 @@ class AsyncPayoutResource:
         self._http = http
         self._config = config
 
-    async def get_transaction(
-        self, *, onepay_transaction_id: str
-    ) -> PayoutTransactionResponse:
+    async def get_transaction(self, *, onepay_transaction_id: str) -> PayoutTransactionResponse:
         """Async version of :meth:`PayoutResource.get_transaction`."""
         headers = build_auth_header(self._config.get_app_token_or_raise())
 

@@ -51,16 +51,16 @@ print(result.ipg_transaction_id)
 
 ## Features
 
-- **Checkout & Payments** — Create transactions, verify payment status
-- **Items Management** — CRUD for line items attached to transactions
-- **Payment Links** — Generate shareable payment URLs
-- **Card on File** — Customer management, card tokenization, automated charging
-- **Refunds** — Full and partial refund support
-- **Payouts** — Transaction lookup and paginated settlement reports
-- **Webhooks** — Framework-agnostic callback parsing
-- **Subscriptions** — Experimental subscription billing support
-- **Sync & Async** — Both `OnePay` and `AsyncOnePay` clients
-- **Type Safe** — Full type annotations, Pydantic models, PEP 561 compliant
+- **Checkout & Payments** : Create transactions, verify payment status
+- **Items Management** : CRUD for line items attached to transactions
+- **Payment Links** : Generate shareable payment URLs
+- **Card on File** : Customer management, card tokenization, automated charging
+- **Refunds** : Full and partial refund support
+- **Payouts** : Transaction lookup and paginated settlement reports
+- **Webhooks** : Framework-agnostic callback parsing
+- **Subscriptions** : Experimental subscription billing support
+- **Sync & Async** : Both `OnePay` and `AsyncOnePay` clients
+- **Type Safe** : Full type annotations, Pydantic models, PEP 561 compliant
 
 ## Authentication
 
@@ -239,17 +239,17 @@ except OnePayError as e:
 
 ## Configuration
 
-| Parameter | Type | Default | Description |
-|---|---|---|---|
-| `app_id` | str | `""` | Your OnePay App ID |
-| `hash_salt` | str | `""` | Your hash salt (secret) |
-| `app_token` | str | `""` | App token for Items, Refunds, Payouts |
-| `api_key` | str | `""` | Company API key for Payment Links |
-| `access_token` | str | `""` | Access token for Customers/Cards |
-| `base_url` | str | `"https://api.onepay.lk"` | API base URL |
-| `timeout` | float | `30.0` | Request timeout in seconds |
-| `max_retries` | int | `3` | Max retry attempts for 429/5xx errors |
-| `debug` | bool | `False` | Enable debug logging |
+| Parameter      | Type  | Default                   | Description                           |
+| -------------- | ----- | ------------------------- | ------------------------------------- |
+| `app_id`       | str   | `""`                      | Your OnePay App ID                    |
+| `hash_salt`    | str   | `""`                      | Your hash salt (secret)               |
+| `app_token`    | str   | `""`                      | App token for Items, Refunds, Payouts |
+| `api_key`      | str   | `""`                      | Company API key for Payment Links     |
+| `access_token` | str   | `""`                      | Access token for Customers/Cards      |
+| `base_url`     | str   | `"https://api.onepay.lk"` | API base URL                          |
+| `timeout`      | float | `30.0`                    | Request timeout in seconds            |
+| `max_retries`  | int   | `3`                       | Max retry attempts for 429/5xx errors |
+| `debug`        | bool  | `False`                   | Enable debug logging                  |
 
 ## Development
 
@@ -269,4 +269,4 @@ ruff check src/ tests/
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT : see [LICENSE](LICENSE).

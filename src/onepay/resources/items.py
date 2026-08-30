@@ -2,11 +2,10 @@
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+import builtins  # noqa: TCH003
+from typing import TYPE_CHECKING, Any
 
 from onepay._auth import build_auth_header
-from onepay._config import OnePayConfig
-from onepay._http import AsyncHttpClient, SyncHttpClient
 from onepay.models.item import (
     CreateItemResponse,
     DeleteItemResponse,
@@ -14,6 +13,10 @@ from onepay.models.item import (
     ListItemsResponse,
     UpdateItemResponse,
 )
+
+if TYPE_CHECKING:
+    from onepay._config import OnePayConfig
+    from onepay._http import AsyncHttpClient, SyncHttpClient
 
 
 class ItemResource:
@@ -30,8 +33,8 @@ class ItemResource:
         description: str,
         price: float,
         currency: str,
-        image_url: Optional[str] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        image_url: str | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> CreateItemResponse:
         """Create a new item.
 
@@ -46,7 +49,7 @@ class ItemResource:
         Returns:
             :class:`CreateItemResponse` with the new ``item_id``.
         """
-        payload: Dict[str, Any] = {
+        payload: dict[str, Any] = {
             "app_id": self._config.get_app_id_or_raise(),
             "name": name,
             "description": description,
@@ -62,7 +65,7 @@ class ItemResource:
         response = self._http.request("POST", "/v3/item/", json=payload, headers=headers)
         return CreateItemResponse.model_validate(response)
 
-    def list(self) -> List[ItemData]:
+    def list(self) -> list[ItemData]:
         """List all items under your App ID.
 
         Returns:
@@ -80,11 +83,11 @@ class ItemResource:
         self,
         *,
         item_id: str,
-        name: Optional[str] = None,
-        price: Optional[float] = None,
-        description: Optional[str] = None,
-        image_url: Optional[str] = None,
-        metadata: Optional[List[Dict[str, Any]]] = None,
+        name: str | None = None,
+        price: float | None = None,
+        description: str | None = None,
+        image_url: str | None = None,
+        metadata: builtins.list[dict[str, Any]] | None = None,
     ) -> UpdateItemResponse:
         """Update an existing item. Only provided fields are changed.
 
@@ -99,7 +102,7 @@ class ItemResource:
         Returns:
             :class:`UpdateItemResponse`.
         """
-        payload: Dict[str, Any] = {
+        payload: dict[str, Any] = {
             "app_id": self._config.get_app_id_or_raise(),
         }
         if name is not None:
@@ -114,9 +117,7 @@ class ItemResource:
             payload["metadata"] = metadata
 
         headers = build_auth_header(self._config.get_app_token_or_raise())
-        response = self._http.request(
-            "PUT", f"/v3/item/{item_id}/", json=payload, headers=headers
-        )
+        response = self._http.request("PUT", f"/v3/item/{item_id}/", json=payload, headers=headers)
         return UpdateItemResponse.model_validate(response)
 
     def delete(self, *, item_id: str) -> DeleteItemResponse:
@@ -155,11 +156,11 @@ class AsyncItemResource:
         description: str,
         price: float,
         currency: str,
-        image_url: Optional[str] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        image_url: str | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> CreateItemResponse:
         """Async version of :meth:`ItemResource.create`."""
-        payload: Dict[str, Any] = {
+        payload: dict[str, Any] = {
             "app_id": self._config.get_app_id_or_raise(),
             "name": name,
             "description": description,
@@ -175,7 +176,7 @@ class AsyncItemResource:
         response = await self._http.request("POST", "/v3/item/", json=payload, headers=headers)
         return CreateItemResponse.model_validate(response)
 
-    async def list(self) -> List[ItemData]:
+    async def list(self) -> list[ItemData]:
         """Async version of :meth:`ItemResource.list`."""
         app_id = self._config.get_app_id_or_raise()
         headers = build_auth_header(self._config.get_app_token_or_raise())
@@ -189,14 +190,14 @@ class AsyncItemResource:
         self,
         *,
         item_id: str,
-        name: Optional[str] = None,
-        price: Optional[float] = None,
-        description: Optional[str] = None,
-        image_url: Optional[str] = None,
-        metadata: Optional[List[Dict[str, Any]]] = None,
+        name: str | None = None,
+        price: float | None = None,
+        description: str | None = None,
+        image_url: str | None = None,
+        metadata: builtins.list[dict[str, Any]] | None = None,
     ) -> UpdateItemResponse:
         """Async version of :meth:`ItemResource.update`."""
-        payload: Dict[str, Any] = {
+        payload: dict[str, Any] = {
             "app_id": self._config.get_app_id_or_raise(),
         }
         if name is not None:

@@ -6,7 +6,7 @@ any SDK-related error with a single ``except OnePayError`` clause.
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from typing import Any
 
 
 class OnePayError(Exception):
@@ -30,7 +30,7 @@ class APIError(OnePayError):
         self,
         message: str,
         status_code: int,
-        raw_response: Optional[Dict[str, Any]] = None,
+        raw_response: dict[str, Any] | None = None,
     ) -> None:
         self.status_code = status_code
         self.raw_response = raw_response or {}
@@ -46,7 +46,7 @@ class AuthenticationError(APIError):
     def __init__(
         self,
         message: str = "Authentication failed. Check your credentials.",
-        raw_response: Optional[Dict[str, Any]] = None,
+        raw_response: dict[str, Any] | None = None,
     ) -> None:
         super().__init__(message=message, status_code=401, raw_response=raw_response)
 
@@ -60,7 +60,7 @@ class InvalidRequestError(APIError):
     def __init__(
         self,
         message: str = "Invalid request parameters.",
-        raw_response: Optional[Dict[str, Any]] = None,
+        raw_response: dict[str, Any] | None = None,
     ) -> None:
         super().__init__(message=message, status_code=400, raw_response=raw_response)
 
@@ -71,7 +71,7 @@ class InvalidAppIdError(InvalidRequestError):
     def __init__(
         self,
         message: str = "Invalid app ID.",
-        raw_response: Optional[Dict[str, Any]] = None,
+        raw_response: dict[str, Any] | None = None,
     ) -> None:
         super().__init__(message=message, raw_response=raw_response)
 
@@ -82,7 +82,7 @@ class InvalidAmountError(InvalidRequestError):
     def __init__(
         self,
         message: str = "Invalid amount.",
-        raw_response: Optional[Dict[str, Any]] = None,
+        raw_response: dict[str, Any] | None = None,
     ) -> None:
         super().__init__(message=message, raw_response=raw_response)
 
@@ -93,7 +93,7 @@ class InvalidCurrencyError(InvalidRequestError):
     def __init__(
         self,
         message: str = "Currency type not available for the app.",
-        raw_response: Optional[Dict[str, Any]] = None,
+        raw_response: dict[str, Any] | None = None,
     ) -> None:
         super().__init__(message=message, raw_response=raw_response)
 
@@ -104,7 +104,7 @@ class RefundNotAllowedError(InvalidRequestError):
     def __init__(
         self,
         message: str = "Refund not allowed for this transaction.",
-        raw_response: Optional[Dict[str, Any]] = None,
+        raw_response: dict[str, Any] | None = None,
     ) -> None:
         super().__init__(message=message, raw_response=raw_response)
 
@@ -119,8 +119,8 @@ class RateLimitError(APIError):
     def __init__(
         self,
         message: str = "Rate limit exceeded. Please retry after a short wait.",
-        retry_after: Optional[float] = None,
-        raw_response: Optional[Dict[str, Any]] = None,
+        retry_after: float | None = None,
+        raw_response: dict[str, Any] | None = None,
     ) -> None:
         self.retry_after = retry_after
         super().__init__(message=message, status_code=429, raw_response=raw_response)
@@ -132,7 +132,7 @@ class NetworkError(OnePayError):
     def __init__(
         self,
         message: str = "A network error occurred while communicating with OnePay.",
-        original_error: Optional[Exception] = None,
+        original_error: Exception | None = None,
     ) -> None:
         self.original_error = original_error
         super().__init__(message)
