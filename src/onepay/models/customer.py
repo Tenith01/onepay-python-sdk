@@ -4,6 +4,8 @@ from __future__ import annotations
 
 from typing import Any, List, Optional
 
+from onepay.models.card import CardData
+
 from pydantic import BaseModel, Field
 
 
@@ -45,8 +47,8 @@ class CustomerData(BaseModel):
     phone_number: Optional[str] = None
     address: Optional[str] = None
     redirect_url: Optional[str] = None
-    cards: Optional[List[Any]] = None
-    transactions: Optional[List[Any]] = None
+    cards: Optional[List[CardData]] = None
+    transactions: Optional[List[CustomerTransactionData]] = None
 
 
 class CreateCustomerResponse(BaseModel):
