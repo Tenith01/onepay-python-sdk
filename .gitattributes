@@ -1,0 +1,26 @@
+# Auto detect text files and perform LF normalization
+* text=auto eol=lf
+
+# Explicitly declare text files you want to always be normalized and converted
+# to native line endings on checkout.
+*.py text diff=python
+*.md text
+*.txt text
+*.toml text
+*.yaml text
+*.yml text
+*.json text
+
+# Exclude generated and minified files from GitHub language statistics
+docs/site/* linguist-generated=true
+tests/data/* linguist-generated=true
+
+# Keep bash scripts as LF
+*.sh text eol=lf
+
+# Image files are binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary

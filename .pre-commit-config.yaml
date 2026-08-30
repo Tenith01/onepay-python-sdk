@@ -1,0 +1,35 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-toml
+      - id: check-added-large-files
+      - id: check-merge-conflict
+      - id: detect-private-key
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.1.6  # Use an older standard compatible with python 3.9 if needed, but ruff is self-contained. 
+    # Will use latest widely supported:
+    # Actually wait, let's use the one configured in pyproject.toml if possible, but v0.1.14 is a safe bet. 
+    # v0.2.0 or v0.3.0 is newer, I'll use a reasonably recent version v0.3.4
+    # Wait, pyproject.toml specifies ruff>=0.1
+    # We will use v0.3.4
+    hooks:
+      # Run the linter
+      - id: ruff
+        args: [ --fix ]
+      # Run the formatter
+      - id: ruff-format
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.9.0
+    hooks:
+      - id: mypy
+        additional_dependencies:
+          - httpx>=0.27
+          - pydantic>=2.0
+          - pytest>=7.0
+        args: [--strict, --ignore-missing-imports]
