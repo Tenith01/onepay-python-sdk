@@ -19,7 +19,7 @@ class TransactionStatusData(BaseModel):
 
     status: bool = Field(..., description="True if the payment was successful")
     ipg_transaction_id: str = Field(..., description="OnePay's internal transaction identifier")
-    amount: str | None = Field(None, description="The amount charged")
+    amount: float | str | None = Field(None, description="The amount charged")
     currency: str | None = Field(None, description="Currency of the transaction")
     paid_on: str | None = Field(
         None, description="Timestamp of payment in YYYY-MM-DD HH:mm:ss format"
