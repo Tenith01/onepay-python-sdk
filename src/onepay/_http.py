@@ -6,6 +6,7 @@ retry logic, error parsing, and structured logging.
 
 from __future__ import annotations
 
+import contextlib
 import logging
 import random
 import time
@@ -52,10 +53,8 @@ def _parse_error_response(
     if status_code == 429:
         err = RateLimitError(message=message, raw_response=response_data)
         if headers and "Retry-After" in headers:
-            try:
+            with contextlib.suppress(ValueError):
                 err.retry_after = float(headers["Retry-After"])
-            except ValueError:
-                pass
         return err
 
     if status_code == 400:
@@ -170,10 +169,8 @@ class SyncHttpClient:
                 if _should_retry(response.status_code) and attempt < self._config.max_retries:
                     delay = _backoff_delay(attempt)
                     if response.status_code == 429 and "Retry-After" in response.headers:
-                        try:
+                        with contextlib.suppress(ValueError):
                             delay = float(response.headers["Retry-After"])
-                        except ValueError:
-                            pass
                     if self._config.debug:
                         logger.debug(
                             "Retrying in %.2fs after HTTP %d",
@@ -299,10 +296,8 @@ class AsyncHttpClient:
                 if _should_retry(response.status_code) and attempt < self._config.max_retries:
                     delay = _backoff_delay(attempt)
                     if response.status_code == 429 and "Retry-After" in response.headers:
-                        try:
+                        with contextlib.suppress(ValueError):
                             delay = float(response.headers["Retry-After"])
-                        except ValueError:
-                            pass
                     if self._config.debug:
                         logger.debug(
                             "Retrying in %.2fs after HTTP %d",

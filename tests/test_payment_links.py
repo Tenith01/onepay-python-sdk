@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING, Any
+
 import httpx
 import pytest
 import respx
@@ -12,9 +14,12 @@ from onepay.models.payment_link import (
     UpdatePaymentLinkResponse,
 )
 
+if TYPE_CHECKING:
+    from onepay import OnePay
+
 
 @pytest.fixture
-def mock_payment_link_create_response():
+def mock_payment_link_create_response() -> dict[str, Any]:
     return {
         "status": 200,
         "message": "Payment link created successfully",
@@ -26,7 +31,7 @@ def mock_payment_link_create_response():
 
 
 @pytest.fixture
-def mock_payment_link_get_response():
+def mock_payment_link_get_response() -> dict[str, Any]:
     return {
         "status": 200,
         "message": "Payment link fetched successfully",
@@ -42,7 +47,7 @@ def mock_payment_link_get_response():
 
 
 @pytest.fixture
-def mock_payment_link_update_response():
+def mock_payment_link_update_response() -> dict[str, Any]:
     return {
         "status": 200,
         "message": "Payment link updated successfully",
@@ -51,19 +56,21 @@ def mock_payment_link_update_response():
 
 
 @pytest.fixture
-def mock_payment_link_delete_response():
+def mock_payment_link_delete_response() -> dict[str, Any]:
     return {"status": 200, "message": "Payment link deleted successfully"}
 
 
 class TestPaymentLinkResource:
     @respx.mock
-    def test_create_payment_link(self, client, mock_payment_link_create_response) -> None:
+    def test_create_payment_link(
+        self, client: OnePay, mock_payment_link_create_response: dict[str, Any]
+    ) -> None:
         respx.post("https://api.onepay.lk/v3/payment-link/?app_id=test_app_id_12345").mock(
             return_value=httpx.Response(200, json=mock_payment_link_create_response)
         )
 
         result = client.payment_links.create(
-            amount=5000.00,
+            amount="5000.00",
             currency="LKR",
             reference_number="INV-001",
             customer_first_name="Kasun",
@@ -75,31 +82,40 @@ class TestPaymentLinkResource:
         )
 
         assert isinstance(result, CreatePaymentLinkResponse)
+        assert result.data is not None
         assert result.data.link_id == "8IT20WK7"
         assert result.data.link_url == "https://gateway.onepay.lk/payment-link/8IT20WK7"
 
     @respx.mock
-    def test_get_payment_link(self, client, mock_payment_link_get_response) -> None:
+    def test_get_payment_link(
+        self, client: OnePay, mock_payment_link_get_response: dict[str, Any]
+    ) -> None:
         respx.get("https://api.onepay.lk/v3/payment-link/8IT20WK7/?app_id=test_app_id_12345").mock(
             return_value=httpx.Response(200, json=mock_payment_link_get_response)
         )
 
         result = client.payment_links.get(link_id="8IT20WK7")
         assert isinstance(result, GetPaymentLinkResponse)
+        assert result.data is not None
         assert result.data.link_id == "8IT20WK7"
 
     @respx.mock
-    def test_update_payment_link(self, client, mock_payment_link_update_response) -> None:
+    def test_update_payment_link(
+        self, client: OnePay, mock_payment_link_update_response: dict[str, Any]
+    ) -> None:
         respx.put("https://api.onepay.lk/v3/payment-link/8IT20WK7/").mock(
             return_value=httpx.Response(200, json=mock_payment_link_update_response)
         )
 
         result = client.payment_links.update(link_id="8IT20WK7", description="Updated desc")
         assert isinstance(result, UpdatePaymentLinkResponse)
+        assert result.data is not None
         assert result.data.description == "Updated desc"
 
     @respx.mock
-    def test_delete_payment_link(self, client, mock_payment_link_delete_response) -> None:
+    def test_delete_payment_link(
+        self, client: OnePay, mock_payment_link_delete_response: dict[str, Any]
+    ) -> None:
         respx.delete(
             "https://api.onepay.lk/v3/payment-link/8IT20WK7/?app_id=test_app_id_12345"
         ).mock(return_value=httpx.Response(200, json=mock_payment_link_delete_response))

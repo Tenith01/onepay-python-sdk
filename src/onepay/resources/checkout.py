@@ -63,7 +63,7 @@ class CheckoutResource:
 
         payload: dict[str, Any] = {
             "app_id": app_id,
-            "amount": amount_str,
+            "amount": float(amount_str),
             "currency": currency,
             "hash": hash_value,
             "reference": reference,

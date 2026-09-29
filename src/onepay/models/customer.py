@@ -2,9 +2,12 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from pydantic import BaseModel, Field
 
-from onepay.models.card import CardData
+if TYPE_CHECKING:
+    from onepay.models.card import CardData
 
 
 class CreateCustomerRequest(BaseModel):
