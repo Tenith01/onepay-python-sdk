@@ -204,6 +204,7 @@ async def process_payment():
         hash_salt="...",
         app_token="...",
     ) as client:
+        # Create a checkout session
         result = await client.checkout.create(
             amount=1000.00,
             currency="LKR",
@@ -214,6 +215,14 @@ async def process_payment():
             customer_email="amila@store.lk",
             transaction_redirect_url="https://store.lk/thank-you",
         )
+
+        # Async iterator for paginated endpoints
+        async for txn in client.payouts.list_transactions(
+            start_date="2026-04-01",
+            end_date="2026-04-28",
+        ):
+            print(f"{txn.onepay_transaction_id}: {txn.settlement_amount}")
+
         return result.redirect_url
 ```
 
