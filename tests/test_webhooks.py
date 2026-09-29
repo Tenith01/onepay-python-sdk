@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+from typing import Any
 
 import pytest
 from onepay import Webhook
@@ -12,7 +13,7 @@ from onepay.webhook import WebhookEvent
 class TestWebhookParsing:
     """Tests for the Webhook.parse() utility."""
 
-    def test_parse_dict(self, mock_webhook_payload) -> None:
+    def test_parse_dict(self, mock_webhook_payload: dict[str, Any]) -> None:
         """Should parse a dict payload."""
         event = Webhook.parse(mock_webhook_payload)
         assert isinstance(event, WebhookEvent)
@@ -21,12 +22,12 @@ class TestWebhookParsing:
         assert event.status_message == "SUCCESS"
         assert event.is_success is True
 
-    def test_parse_string(self, mock_webhook_payload) -> None:
+    def test_parse_string(self, mock_webhook_payload: dict[str, Any]) -> None:
         """Should parse a JSON string payload."""
         event = Webhook.parse(json.dumps(mock_webhook_payload))
         assert event.is_success is True
 
-    def test_parse_bytes(self, mock_webhook_payload) -> None:
+    def test_parse_bytes(self, mock_webhook_payload: dict[str, Any]) -> None:
         """Should parse a bytes payload."""
         event = Webhook.parse(json.dumps(mock_webhook_payload).encode())
         assert event.is_success is True
