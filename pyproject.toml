@@ -12,6 +12,7 @@ requires-python = ">=3.9"
 dependencies = [
     "httpx>=0.27,<1.0",
     "pydantic>=2.0,<3.0",
+    "eval-type-backport; python_version < '3.10'",
 ]
 keywords = ["onepay", "payment", "gateway", "sri-lanka", "checkout", "payment-processing"]
 classifiers = [
