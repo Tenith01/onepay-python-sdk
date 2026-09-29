@@ -36,6 +36,7 @@ _USER_AGENT = f"onepay-python/{__version__}"
 def _parse_error_response(
     status_code: int,
     response_data: dict[str, Any],
+    headers: httpx.Headers | dict[str, str] | None = None,
 ) -> APIError:
     """Parse an HTTP error response into the appropriate exception type."""
     message = response_data.get("message", "") or response_data.get("error", "")
@@ -49,7 +50,13 @@ def _parse_error_response(
         return AuthenticationError(message=message, raw_response=response_data)
 
     if status_code == 429:
-        return RateLimitError(message=message, raw_response=response_data)
+        err = RateLimitError(message=message, raw_response=response_data)
+        if headers and "Retry-After" in headers:
+            try:
+                err.retry_after = float(headers["Retry-After"])
+            except ValueError:
+                pass
+        return err
 
     if status_code == 400:
         if "invalid app" in msg_lower:
@@ -162,6 +169,11 @@ class SyncHttpClient:
                 # Check if we should retry
                 if _should_retry(response.status_code) and attempt < self._config.max_retries:
                     delay = _backoff_delay(attempt)
+                    if response.status_code == 429 and "Retry-After" in response.headers:
+                        try:
+                            delay = float(response.headers["Retry-After"])
+                        except ValueError:
+                            pass
                     if self._config.debug:
                         logger.debug(
                             "Retrying in %.2fs after HTTP %d",
@@ -169,11 +181,13 @@ class SyncHttpClient:
                             response.status_code,
                         )
                     time.sleep(delay)
-                    last_error = _parse_error_response(response.status_code, response_data)
+                    last_error = _parse_error_response(
+                        response.status_code, response_data, response.headers
+                    )
                     continue
 
                 # Non-retryable error
-                raise _parse_error_response(response.status_code, response_data)
+                raise _parse_error_response(response.status_code, response_data, response.headers)
 
             except OnePayError:
                 raise
@@ -284,6 +298,11 @@ class AsyncHttpClient:
 
                 if _should_retry(response.status_code) and attempt < self._config.max_retries:
                     delay = _backoff_delay(attempt)
+                    if response.status_code == 429 and "Retry-After" in response.headers:
+                        try:
+                            delay = float(response.headers["Retry-After"])
+                        except ValueError:
+                            pass
                     if self._config.debug:
                         logger.debug(
                             "Retrying in %.2fs after HTTP %d",
@@ -291,10 +310,12 @@ class AsyncHttpClient:
                             response.status_code,
                         )
                     await asyncio.sleep(delay)
-                    last_error = _parse_error_response(response.status_code, response_data)
+                    last_error = _parse_error_response(
+                        response.status_code, response_data, response.headers
+                    )
                     continue
 
-                raise _parse_error_response(response.status_code, response_data)
+                raise _parse_error_response(response.status_code, response_data, response.headers)
 
             except OnePayError:
                 raise
