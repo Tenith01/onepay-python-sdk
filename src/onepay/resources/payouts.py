@@ -13,7 +13,7 @@ from onepay.models.payout import (
 )
 
 if TYPE_CHECKING:
-    from collections.abc import Iterator
+    from collections.abc import AsyncIterator, Iterator
 
     from onepay._config import OnePayConfig
     from onepay._http import AsyncHttpClient, SyncHttpClient
@@ -171,3 +171,41 @@ class AsyncPayoutResource:
             headers=headers,
         )
         return PayoutTransactionListResponse.model_validate(response)
+
+    async def list_transactions(
+        self,
+        *,
+        start_date: str,
+        end_date: str,
+        page_size: int = 20,
+    ) -> AsyncIterator[PayoutTransactionData]:
+        """Async version of :meth:`PayoutResource.list_transactions`."""
+        headers = build_auth_header(self._config.get_app_token_or_raise())
+        page = 1
+
+        while True:
+            response = await self._http.request(
+                "GET",
+                "/v3/payout/transactions/",
+                params={
+                    "start_date": start_date,
+                    "end_date": end_date,
+                    "page": page,
+                    "page_size": page_size,
+                },
+                headers=headers,
+            )
+
+            parsed = PayoutTransactionListResponse.model_validate(response)
+
+            if parsed.data is None or not parsed.data.results:
+                return
+
+            for item in parsed.data.results:
+                yield item
+
+            total_pages = math.ceil(parsed.data.count / page_size) if parsed.data.count else 1
+            if page >= total_pages:
+                return
+
+            page += 1
