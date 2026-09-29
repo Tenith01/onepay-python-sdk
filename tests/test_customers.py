@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING, Any
+
 import httpx
 import pytest
 import respx
@@ -12,9 +14,12 @@ from onepay.models.customer import (
     GetCustomerResponse,
 )
 
+if TYPE_CHECKING:
+    from onepay import OnePay
+
 
 @pytest.fixture
-def mock_customer_create_response():
+def mock_customer_create_response() -> dict[str, Any]:
     return {
         "status": 200,
         "message": "Customer created successfully",
@@ -26,7 +31,7 @@ def mock_customer_create_response():
 
 
 @pytest.fixture
-def mock_customer_request_token_response():
+def mock_customer_request_token_response() -> dict[str, Any]:
     return {
         "status": 200,
         "message": "Token requested successfully",
@@ -38,7 +43,7 @@ def mock_customer_request_token_response():
 
 
 @pytest.fixture
-def mock_customer_list_response():
+def mock_customer_list_response() -> dict[str, Any]:
     return {
         "status": 200,
         "message": "Customers fetched successfully",
@@ -55,7 +60,7 @@ def mock_customer_list_response():
 
 
 @pytest.fixture
-def mock_customer_get_response():
+def mock_customer_get_response() -> dict[str, Any]:
     return {
         "status": 200,
         "message": "Customer fetched successfully",
@@ -70,7 +75,7 @@ def mock_customer_get_response():
 
 
 @pytest.fixture
-def mock_customer_list_transactions_response():
+def mock_customer_list_transactions_response() -> dict[str, Any]:
     return {
         "status": 200,
         "message": "Transactions fetched successfully",
@@ -89,7 +94,9 @@ def mock_customer_list_transactions_response():
 
 class TestCustomerResource:
     @respx.mock
-    def test_create_customer(self, client, mock_customer_create_response) -> None:
+    def test_create_customer(
+        self, client: OnePay, mock_customer_create_response: dict[str, Any]
+    ) -> None:
         respx.post("https://api.onepay.lk/v3/customers/").mock(
             return_value=httpx.Response(200, json=mock_customer_create_response)
         )
@@ -103,10 +110,13 @@ class TestCustomerResource:
             redirect_url="https://store.lk/card-saved",
         )
         assert isinstance(result, CreateCustomerResponse)
+        assert result.data is not None
         assert result.data.customer_id == "cus_907fa39a"
 
     @respx.mock
-    def test_request_token(self, client, mock_customer_request_token_response) -> None:
+    def test_request_token(
+        self, client: OnePay, mock_customer_request_token_response: dict[str, Any]
+    ) -> None:
         respx.post("https://api.onepay.lk/v3/customers/").mock(
             return_value=httpx.Response(200, json=mock_customer_request_token_response)
         )
@@ -115,10 +125,13 @@ class TestCustomerResource:
             customer_id="cus_907fa39a", redirect_url="https://store.lk/card-saved"
         )
         assert isinstance(result, CreateCustomerResponse)
+        assert result.data is not None
         assert result.data.redirect_url == "https://gateway.onepay.lk/add-card/456"
 
     @respx.mock
-    def test_list_customers(self, client, mock_customer_list_response) -> None:
+    def test_list_customers(
+        self, client: OnePay, mock_customer_list_response: dict[str, Any]
+    ) -> None:
         respx.get("https://api.onepay.lk/v3/customers/").mock(
             return_value=httpx.Response(200, json=mock_customer_list_response)
         )
@@ -129,17 +142,20 @@ class TestCustomerResource:
         assert result[0].customer_id == "cus_907fa39a"
 
     @respx.mock
-    def test_get_customer(self, client, mock_customer_get_response) -> None:
+    def test_get_customer(self, client: OnePay, mock_customer_get_response: dict[str, Any]) -> None:
         respx.get("https://api.onepay.lk/v3/customers/cus_907fa39a/?app_id=test_app_id_12345").mock(
             return_value=httpx.Response(200, json=mock_customer_get_response)
         )
 
         result = client.customers.get(customer_id="cus_907fa39a")
         assert isinstance(result, GetCustomerResponse)
+        assert result.data is not None
         assert result.data.customer_id == "cus_907fa39a"
 
     @respx.mock
-    def test_list_transactions(self, client, mock_customer_list_transactions_response) -> None:
+    def test_list_transactions(
+        self, client: OnePay, mock_customer_list_transactions_response: dict[str, Any]
+    ) -> None:
         respx.get(
             "https://api.onepay.lk/v3/customers/cus_907fa39a/transactions/?app_id=test_app_id_12345"
         ).mock(return_value=httpx.Response(200, json=mock_customer_list_transactions_response))
