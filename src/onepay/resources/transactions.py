@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
-from onepay._auth import build_json_header
+from onepay._auth import build_auth_header
 from onepay.models.transaction import TransactionStatusResponse
 
 if TYPE_CHECKING:
@@ -33,7 +33,7 @@ class TransactionResource:
         """
         app_id = self._config.get_app_id_or_raise()
 
-        payload: dict[str, Any] = {
+        payload: dict[str, str] = {
             "app_id": app_id,
             "onepay_transaction_id": onepay_transaction_id,
         }
@@ -42,10 +42,11 @@ class TransactionResource:
             "POST",
             "/v3/transaction/status/",
             json=payload,
-            headers=build_json_header(),
+            headers=build_auth_header(self._config.get_app_token_or_raise()),
         )
 
-        return TransactionStatusResponse.model_validate(response)
+        result: TransactionStatusResponse = TransactionStatusResponse.model_validate(response)
+        return result
 
 
 class AsyncTransactionResource:
@@ -59,7 +60,7 @@ class AsyncTransactionResource:
         """Async version of :meth:`TransactionResource.get_status`."""
         app_id = self._config.get_app_id_or_raise()
 
-        payload: dict[str, Any] = {
+        payload: dict[str, str] = {
             "app_id": app_id,
             "onepay_transaction_id": onepay_transaction_id,
         }
@@ -68,7 +69,8 @@ class AsyncTransactionResource:
             "POST",
             "/v3/transaction/status/",
             json=payload,
-            headers=build_json_header(),
+            headers=build_auth_header(self._config.get_app_token_or_raise()),
         )
 
-        return TransactionStatusResponse.model_validate(response)
+        result: TransactionStatusResponse = TransactionStatusResponse.model_validate(response)
+        return result

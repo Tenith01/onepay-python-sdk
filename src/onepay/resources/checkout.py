@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
 from onepay._auth import build_auth_header, generate_hash
 from onepay.models.checkout import CheckoutResponse
@@ -61,7 +61,7 @@ class CheckoutResource:
         # Generate SHA-256 hash
         hash_value = generate_hash(app_id, currency, amount_str, hash_salt)
 
-        payload: dict[str, Any] = {
+        payload: dict[str, str | float | list[str]] = {
             "app_id": app_id,
             "amount": float(amount_str),
             "currency": currency,
@@ -75,7 +75,7 @@ class CheckoutResource:
         }
 
         if additional_data is not None:
-            payload["additionalData"] = additional_data
+            payload["additional_data"] = additional_data
         if items is not None:
             payload["items"] = items
 
@@ -88,7 +88,8 @@ class CheckoutResource:
             headers=headers,
         )
 
-        return CheckoutResponse.model_validate(response)
+        result: CheckoutResponse = CheckoutResponse.model_validate(response)
+        return result
 
 
 class AsyncCheckoutResource:
@@ -119,7 +120,7 @@ class AsyncCheckoutResource:
         amount_str = f"{float(amount):.2f}"
         hash_value = generate_hash(app_id, currency, amount_str, hash_salt)
 
-        payload: dict[str, Any] = {
+        payload: dict[str, str | float | list[str]] = {
             "app_id": app_id,
             "amount": float(amount_str),
             "currency": currency,
@@ -133,7 +134,7 @@ class AsyncCheckoutResource:
         }
 
         if additional_data is not None:
-            payload["additionalData"] = additional_data
+            payload["additional_data"] = additional_data
         if items is not None:
             payload["items"] = items
 
@@ -146,4 +147,5 @@ class AsyncCheckoutResource:
             headers=headers,
         )
 
-        return CheckoutResponse.model_validate(response)
+        result: CheckoutResponse = CheckoutResponse.model_validate(response)
+        return result
