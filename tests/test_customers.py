@@ -80,7 +80,8 @@ def mock_customer_list_transactions_response():
                 "amount": "1500.00",
                 "currency": "LKR",
                 "status": True,
-                "paid_on": "2026-08-30 14:00:00",
+                "token_id": "tok_123",
+                "created_at": "2026-08-30 14:00:00",
             }
         ],
     }

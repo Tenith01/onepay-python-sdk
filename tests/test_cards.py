@@ -21,8 +21,8 @@ def mock_card_list_response():
         "data": [
             {
                 "token_id": "tok_12345678",
-                "masked_pan": "411111XXXXXX1111",
-                "card_brand": "Visa",
+                "masked_number": "411111XXXXXX1111",
+                "card_type": "Visa",
                 "is_active": True,
             }
         ],
@@ -36,8 +36,8 @@ def mock_card_get_response():
         "message": "Card fetched successfully",
         "data": {
             "token_id": "tok_12345678",
-            "masked_pan": "411111XXXXXX1111",
-            "card_brand": "Visa",
+            "masked_number": "411111XXXXXX1111",
+            "card_type": "Visa",
             "is_active": True,
         },
     }
