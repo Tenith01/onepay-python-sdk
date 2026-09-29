@@ -17,7 +17,7 @@ class TransactionStatusRequest(BaseModel):
 class TransactionStatusData(BaseModel):
     """Transaction status data from the API response."""
 
-    status: bool = Field(..., description="True if the payment was successful")
+    status: int | bool = Field(..., description="True or HTTP 200 if the payment was successful")
     ipg_transaction_id: str = Field(..., description="OnePay's internal transaction identifier")
     amount: float | str | None = Field(None, description="The amount charged")
     currency: str | None = Field(None, description="Currency of the transaction")
@@ -29,5 +29,5 @@ class TransactionStatusData(BaseModel):
 class TransactionStatusResponse(BaseModel):
     """Parsed response from the transaction status API."""
 
-    status: bool = Field(..., description="True if the payment was successful")
+    status: int | bool = Field(..., description="True or HTTP 200 if the payment was successful")
     data: TransactionStatusData | None = None
