@@ -84,3 +84,9 @@ class ListCustomerTransactionsResponse(BaseModel):
 
     status: int = 200
     data: list[CustomerTransactionData] | None = None
+
+
+CustomerData.model_rebuild()
+CreateCustomerResponse.model_rebuild()
+ListCustomersResponse.model_rebuild()
+GetCustomerResponse.model_rebuild()
