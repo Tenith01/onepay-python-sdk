@@ -2,17 +2,22 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING, Any
+
 import httpx
 import pytest
 import respx
 from onepay.models.refund import RefundResponse
+
+if TYPE_CHECKING:
+    from onepay import OnePay
 
 
 class TestRefundResource:
     """Tests for the refunds.create() method."""
 
     @respx.mock
-    def test_full_refund(self, client, mock_refund_response) -> None:
+    def test_full_refund(self, client: OnePay, mock_refund_response: dict[str, Any]) -> None:
         """Full refund should succeed."""
         respx.post("https://api.onepay.lk/v3/transaction/refund/").mock(
             return_value=httpx.Response(200, json=mock_refund_response)
@@ -30,7 +35,7 @@ class TestRefundResource:
         assert result.data.is_partially is False
 
     @respx.mock
-    def test_partial_refund(self, client) -> None:
+    def test_partial_refund(self, client: OnePay) -> None:
         """Partial refund with amount should succeed."""
         respx.post("https://api.onepay.lk/v3/transaction/refund/").mock(
             return_value=httpx.Response(
@@ -61,7 +66,7 @@ class TestRefundResource:
         assert result.data is not None
         assert result.data.is_partially is True
 
-    def test_partial_refund_without_amount_raises(self, client) -> None:
+    def test_partial_refund_without_amount_raises(self, client: OnePay) -> None:
         """Partial refund without amount should raise ValueError."""
         with pytest.raises(ValueError, match="amount is required"):
             client.refunds.create(

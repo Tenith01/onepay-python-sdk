@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 import httpx
 import pytest
 import respx
@@ -11,12 +13,15 @@ from onepay.exceptions import (
     RateLimitError,
 )
 
+if TYPE_CHECKING:
+    from onepay import OnePay
+
 
 class TestHttpClientErrors:
     """Tests for error parsing and exception raising."""
 
     @respx.mock
-    def test_401_raises_authentication_error(self, client) -> None:
+    def test_401_raises_authentication_error(self, client: OnePay) -> None:
         """HTTP 401 should raise AuthenticationError."""
         respx.post("https://api.onepay.lk/v3/checkout/link/").mock(
             return_value=httpx.Response(401, json={"message": "Invalid authorization"})
@@ -37,7 +42,7 @@ class TestHttpClientErrors:
         assert exc_info.value.status_code == 401
 
     @respx.mock
-    def test_400_raises_invalid_request_error(self, client) -> None:
+    def test_400_raises_invalid_request_error(self, client: OnePay) -> None:
         """HTTP 400 should raise InvalidRequestError."""
         respx.post("https://api.onepay.lk/v3/checkout/link/").mock(
             return_value=httpx.Response(400, json={"message": "Invalid request body"})
@@ -58,7 +63,7 @@ class TestHttpClientErrors:
         assert exc_info.value.status_code == 400
 
     @respx.mock
-    def test_429_raises_rate_limit_error(self, client) -> None:
+    def test_429_raises_rate_limit_error(self, client: OnePay) -> None:
         """HTTP 429 should raise RateLimitError."""
         respx.post("https://api.onepay.lk/v3/checkout/link/").mock(
             return_value=httpx.Response(429, json={"message": "Too many requests"})

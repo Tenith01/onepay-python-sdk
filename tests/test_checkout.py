@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import Any
+
 import httpx
 import pytest
 import respx
@@ -13,7 +15,9 @@ class TestCheckoutResource:
     """Tests for the checkout.create() method."""
 
     @respx.mock
-    def test_create_checkout_success(self, client, mock_checkout_response) -> None:
+    def test_create_checkout_success(
+        self, client: OnePay, mock_checkout_response: dict[str, Any]
+    ) -> None:
         """Successful checkout should return redirect URL and transaction ID."""
         respx.post("https://api.onepay.lk/v3/checkout/link/").mock(
             return_value=httpx.Response(200, json=mock_checkout_response)
@@ -35,7 +39,7 @@ class TestCheckoutResource:
         assert result.ipg_transaction_id == "WQBV118E584C83CBA50C6"
 
     @respx.mock
-    def test_create_checkout_includes_hash_in_payload(self, client) -> None:
+    def test_create_checkout_includes_hash_in_payload(self, client: OnePay) -> None:
         """The request payload should include the auto-generated hash."""
         route = respx.post("https://api.onepay.lk/v3/checkout/link/").mock(
             return_value=httpx.Response(
@@ -68,7 +72,9 @@ class TestCheckoutResource:
         assert '"app_id"' in body
 
     @respx.mock
-    def test_create_checkout_with_optional_fields(self, client, mock_checkout_response) -> None:
+    def test_create_checkout_with_optional_fields(
+        self, client: OnePay, mock_checkout_response: dict[str, Any]
+    ) -> None:
         """Optional fields like additional_data and items should be included."""
         respx.post("https://api.onepay.lk/v3/checkout/link/").mock(
             return_value=httpx.Response(200, json=mock_checkout_response)

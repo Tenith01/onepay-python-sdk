@@ -2,15 +2,20 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING, Any
+
 import httpx
 import respx
+
+if TYPE_CHECKING:
+    from onepay import OnePay
 
 
 class TestItemResource:
     """Tests for item CRUD operations."""
 
     @respx.mock
-    def test_create_item(self, client, mock_create_item_response) -> None:
+    def test_create_item(self, client: OnePay, mock_create_item_response: dict[str, Any]) -> None:
         """Item creation should return the new item_id."""
         respx.post("https://api.onepay.lk/v3/item/").mock(
             return_value=httpx.Response(200, json=mock_create_item_response)
@@ -26,7 +31,7 @@ class TestItemResource:
         assert result.item_id == "item_abc123"
 
     @respx.mock
-    def test_list_items(self, client, mock_list_items_response) -> None:
+    def test_list_items(self, client: OnePay, mock_list_items_response: dict[str, Any]) -> None:
         """Item listing should return a list of ItemData."""
         respx.get("https://api.onepay.lk/v3/item/").mock(
             return_value=httpx.Response(200, json=mock_list_items_response)
@@ -39,7 +44,7 @@ class TestItemResource:
         assert items[0].name == "Widget"
 
     @respx.mock
-    def test_update_item(self, client) -> None:
+    def test_update_item(self, client: OnePay) -> None:
         """Item update should succeed."""
         respx.put("https://api.onepay.lk/v3/item/item_abc123/").mock(
             return_value=httpx.Response(
@@ -56,7 +61,7 @@ class TestItemResource:
         assert result.status == 200
 
     @respx.mock
-    def test_delete_item(self, client) -> None:
+    def test_delete_item(self, client: OnePay) -> None:
         """Item deletion should succeed."""
         respx.delete("https://api.onepay.lk/v3/item/item_abc123/").mock(
             return_value=httpx.Response(

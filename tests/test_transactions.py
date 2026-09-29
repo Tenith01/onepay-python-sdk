@@ -2,16 +2,23 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING, Any
+
 import httpx
 import respx
 from onepay.models.transaction import TransactionStatusResponse
+
+if TYPE_CHECKING:
+    from onepay import OnePay
 
 
 class TestTransactionResource:
     """Tests for the transactions.get_status() method."""
 
     @respx.mock
-    def test_get_status_success(self, client, mock_transaction_status_response) -> None:
+    def test_get_status_success(
+        self, client: OnePay, mock_transaction_status_response: dict[str, Any]
+    ) -> None:
         """Successful status check should return parsed transaction data."""
         respx.post("https://api.onepay.lk/v3/transaction/status/").mock(
             return_value=httpx.Response(200, json=mock_transaction_status_response)
@@ -27,7 +34,7 @@ class TestTransactionResource:
         assert result.data.currency == "LKR"
 
     @respx.mock
-    def test_get_status_failed_payment(self, client) -> None:
+    def test_get_status_failed_payment(self, client: OnePay) -> None:
         """Failed payment should return status=False."""
         respx.post("https://api.onepay.lk/v3/transaction/status/").mock(
             return_value=httpx.Response(

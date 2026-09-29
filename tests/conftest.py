@@ -2,12 +2,17 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING, Any
+
 import pytest
 from onepay import AsyncOnePay, OnePay
 
+if TYPE_CHECKING:
+    from collections.abc import Generator
+
 
 @pytest.fixture
-def config_kwargs():
+def config_kwargs() -> dict[str, Any]:
     """Common configuration keyword arguments for test clients."""
     return {
         "app_id": "test_app_id_12345",
@@ -23,7 +28,7 @@ def config_kwargs():
 
 
 @pytest.fixture
-def client(config_kwargs):
+def client(config_kwargs: dict[str, Any]) -> Generator[OnePay, None, None]:
     """Create a sync OnePay client for testing."""
     c = OnePay(**config_kwargs)
     yield c
@@ -31,13 +36,13 @@ def client(config_kwargs):
 
 
 @pytest.fixture
-def async_client(config_kwargs):
+def async_client(config_kwargs: dict[str, Any]) -> AsyncOnePay:
     """Create an async OnePay client for testing."""
     return AsyncOnePay(**config_kwargs)
 
 
 @pytest.fixture
-def mock_checkout_response():
+def mock_checkout_response() -> dict[str, Any]:
     """Mock successful checkout API response."""
     return {
         "status": 200,
@@ -49,7 +54,7 @@ def mock_checkout_response():
 
 
 @pytest.fixture
-def mock_transaction_status_response():
+def mock_transaction_status_response() -> dict[str, Any]:
     """Mock successful transaction status response."""
     return {
         "status": True,
@@ -64,7 +69,7 @@ def mock_transaction_status_response():
 
 
 @pytest.fixture
-def mock_create_item_response():
+def mock_create_item_response() -> dict[str, Any]:
     """Mock successful item creation response."""
     return {
         "status": 200,
@@ -74,7 +79,7 @@ def mock_create_item_response():
 
 
 @pytest.fixture
-def mock_list_items_response():
+def mock_list_items_response() -> dict[str, Any]:
     """Mock item list response."""
     return {
         "status": 200,
@@ -95,7 +100,7 @@ def mock_list_items_response():
 
 
 @pytest.fixture
-def mock_refund_response():
+def mock_refund_response() -> dict[str, Any]:
     """Mock successful refund response."""
     return {
         "status": 200,
@@ -112,7 +117,7 @@ def mock_refund_response():
 
 
 @pytest.fixture
-def mock_payout_transaction_response():
+def mock_payout_transaction_response() -> dict[str, Any]:
     """Mock payout transaction lookup response."""
     return {
         "status": 200,
@@ -131,7 +136,7 @@ def mock_payout_transaction_response():
 
 
 @pytest.fixture
-def mock_webhook_payload():
+def mock_webhook_payload() -> dict[str, Any]:
     """Mock webhook callback payload."""
     return {
         "transaction_id": "WQBV118E584C83CBA50C6",

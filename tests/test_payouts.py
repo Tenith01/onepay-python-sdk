@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING, Any
+
 import httpx
 import pytest
 import respx
@@ -11,9 +13,12 @@ from onepay.models.payout import (
     PayoutTransactionResponse,
 )
 
+if TYPE_CHECKING:
+    from onepay import OnePay
+
 
 @pytest.fixture
-def mock_payout_list_response():
+def mock_payout_list_response() -> dict[str, Any]:
     return {
         "status": 200,
         "message": "Transactions fetched successfully",
@@ -39,17 +44,22 @@ def mock_payout_list_response():
 
 class TestPayoutResource:
     @respx.mock
-    def test_get_transaction(self, client, mock_payout_transaction_response) -> None:
+    def test_get_transaction(
+        self, client: OnePay, mock_payout_transaction_response: dict[str, Any]
+    ) -> None:
         respx.get(
             "https://api.onepay.lk/v3/payout/transaction/?onepay_transaction_id=WQBV118E584C83CBA50C6"
         ).mock(return_value=httpx.Response(200, json=mock_payout_transaction_response))
 
         result = client.payouts.get_transaction(onepay_transaction_id="WQBV118E584C83CBA50C6")
         assert isinstance(result, PayoutTransactionResponse)
+        assert result.data is not None
         assert result.data.onepay_transaction_id == "WQBV118E584C83CBA50C6"
 
     @respx.mock
-    def test_list_transactions_page(self, client, mock_payout_list_response) -> None:
+    def test_list_transactions_page(
+        self, client: OnePay, mock_payout_list_response: dict[str, Any]
+    ) -> None:
         respx.get(
             "https://api.onepay.lk/v3/payout/transactions/?start_date=2026-08-01&end_date=2026-08-31&page=1&page_size=20"
         ).mock(return_value=httpx.Response(200, json=mock_payout_list_response))
@@ -58,12 +68,15 @@ class TestPayoutResource:
             start_date="2026-08-01", end_date="2026-08-31", page=1, page_size=20
         )
         assert isinstance(result, PayoutTransactionListResponse)
+        assert result.data is not None
         assert result.data.count == 1
         assert len(result.data.results) == 1
         assert result.data.results[0].onepay_transaction_id == "TXN_777"
 
     @respx.mock
-    def test_list_transactions_iterator(self, client, mock_payout_list_response) -> None:
+    def test_list_transactions_iterator(
+        self, client: OnePay, mock_payout_list_response: dict[str, Any]
+    ) -> None:
         respx.get(
             "https://api.onepay.lk/v3/payout/transactions/?start_date=2026-08-01&end_date=2026-08-31&page=1&page_size=20"
         ).mock(return_value=httpx.Response(200, json=mock_payout_list_response))
